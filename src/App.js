@@ -39,8 +39,8 @@ class App extends Component {
       return (
         <div id="main">
           <Options imageChanged={this.imageChanged} />
-          <Original image={this.state.image} net={this.net}/>
           <Modified image={this.state.image} net={this.net}/>
+          <Original image={this.state.image} net={this.net}/>
         </div>
       );
     } else {
