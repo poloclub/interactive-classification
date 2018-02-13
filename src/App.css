@@ -1,0 +1,34 @@
+#main {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.box {
+  padding: 25px;
+}
+
+#options {
+  width: 150px;
+  border-right: 1px solid grey;
+}
+
+#original {
+  width: 300px;
+  border-right: 1px solid grey;
+}
+
+#modified {
+  width: 300px;
+}
+
+#brush-container {
+  width: 120px;
+}
+
+#brush-range {
+  width: 100%;
+  margin: 0px;
+  height: 15px;
+  border-radius: 5px;  
+  outline: none;
+}

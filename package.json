@@ -1,0 +1,20 @@
+{
+  "name": "deepvis",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "deeplearn": "^0.4.2",
+    "deeplearn-squeezenet": "^0.1.9",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.1.0",
+    "requirejs": "^2.3.5",
+    "typescript": "^2.7.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
