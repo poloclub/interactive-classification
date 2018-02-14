@@ -23,15 +23,17 @@ class Original extends Component {
     }
 
     componentWillReceiveProps(nProps) {
-        this.props = nProps;
-        const ctx = this.c.getContext('2d');
-        drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, function(top) {
-                this.setState({
-                    results: top
-                });
+        if (this.props.image !== nProps.image) {
+            const ctx = this.c.getContext('2d');
+            drawImage(ctx, nProps.image, function(img) {
+                predict(img, nProps.net, function(top) {
+                    this.setState({
+                        results: top
+                    });
+                }.bind(this));
             }.bind(this));
-        }.bind(this));
+        }
+        this.props = nProps;
     }
 
     render() {

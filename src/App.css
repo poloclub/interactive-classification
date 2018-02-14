@@ -22,17 +22,31 @@
 }
 
 #brush-container {
+  border-top: solid 1px black;
+  border-bottom: solid 1px black;
   width: 120px;
 }
 
 #brush-range {
   width: 100%;
-  margin: 0px;
   height: 15px;
   border-radius: 5px;  
   outline: none;
+  margin-bottom: 10px;
 }
 
 #draw-canvas {
   margin-left: -227px;
+}
+
+#brush-size-text {
+  display: inline-block;
+}
+
+#img-select {
+  margin-bottom: 20px;
+}
+
+#reset-button {
+  margin-top: 20px;
 }

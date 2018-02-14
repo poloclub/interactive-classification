@@ -39,7 +39,7 @@ class Modified extends Component {
             ctx.strokeStyle = 'rgba(237, 17, 175, 0.5)';
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
-            ctx.lineWidth = 15;
+            ctx.lineWidth = this.props.brushSize * 2;
 
             if (clickX.length > 1) {
                 ctx.beginPath();
@@ -83,15 +83,17 @@ class Modified extends Component {
     }
 
     componentWillReceiveProps(nProps) {
-        this.props = nProps;
-        const ctx = this.cImg.getContext('2d');
-        drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, function(top) {
-                this.setState({
-                    results: top
-                });
+        if (this.props.brushSize === nProps.brushSize) {
+            const ctx = this.cImg.getContext('2d');
+            drawImage(ctx, nProps.image, function(img) {
+                predict(img, nProps.net, function(top) {
+                    this.setState({
+                        results: top
+                    });
+                }.bind(this));
             }.bind(this));
-        }.bind(this));
+        }
+        this.props = nProps;
     }
 
     render() {
