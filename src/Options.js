@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import RaisedButton from 'material-ui/RaisedButton';
+import Slider from 'material-ui/Slider';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import './App.css';
 
 class Options extends Component {
@@ -6,15 +10,23 @@ class Options extends Component {
     super(props);
 
     this.state = {
-      brushSize: 15
+      brushSize: 15,
+      image: 'boat.jpg'
     };
   }
   
-  brushChanged = (e) => {
+  brushChanged = (e, val) => {
     this.setState({
-      brushSize: e.target.value
+      brushSize: val
     });
-    this.props.brushChanged(e);
+    this.props.brushChanged(val);
+  }
+
+  imageChanged = (e, i, val) => {
+    this.setState({
+      image: val
+    });
+    this.props.imageChanged(val);
   }
 
   render() {
@@ -22,19 +34,21 @@ class Options extends Component {
       <div className="box" id="options">
         <h1>Deep Vis</h1>
         <h4>Select Image:</h4>
-        <select id="img-select" onChange={this.props.imageChanged}>
-          <option value="boat.jpg">Boat</option>
-          <option value="elephant.jpg">Elephant</option>
-        </select>
+        <SelectField onChange={this.imageChanged} value={this.state.image} fullWidth={true}>
+          <MenuItem value="boat.jpg" primaryText="Boat"/>
+          <MenuItem value="elephant.jpg" primaryText="Elephant"/>
+        </SelectField>
         <div id="brush-container">
           <h4>Brush Size:</h4>
-          <input type="range" min="2" max="30" defaultValue="15" id="brush-range" onChange={this.brushChanged}></input>
+          <Slider min={2} max={30} defaultValue={15} step={1} className='brush-slider' onChange={(event, value) => this.brushChanged(event, value)}/>
           <svg height="60px" width="60px">
-            <circle cx="30" cy="30" r={this.state.brushSize}/>
+            <circle cx="30" cy="30" fill="rgb(0, 188, 212)" r={this.state.brushSize}/>
           </svg>
           <p id="brush-size-text">{this.state.brushSize}</p>
         </div>
-        <button id="reset-button" onClick={this.props.reset}>Reset</button>
+        <div id="reset-button">
+          <RaisedButton label="Reset" primary={true} onClick={this.props.reset}/>
+        </div>
       </div>
     );
   }

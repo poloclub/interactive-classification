@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {ENV} from 'deeplearn';
 import {SqueezeNet} from 'deeplearn-squeezenet';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Options from './Options.js';
 import Modified from './Modified.js';
@@ -29,15 +30,15 @@ class App extends Component {
     });
   }
 
-  imageChanged = (e) => {
+  imageChanged = (val) => {
     this.setState({
-      image: e.target.value
+      image: val
     });
   }
 
-  brushChanged = (e) => {
+  brushChanged = (val) => {
     this.setState({
-      brushSize: e.target.value
+      brushSize: val
     });
   }
   
@@ -50,11 +51,13 @@ class App extends Component {
   render() {
     if (this.state.netStatus === "Loaded") {
       return (
-        <div id="main">
-          <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} reset={this.reset}/>
-          <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize}/>
-          <Original image={this.state.image} net={this.net}/>
-        </div>
+        <MuiThemeProvider>
+          <div id="main">
+            <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} reset={this.reset}/>
+            <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize}/>
+            <Original image={this.state.image} net={this.net}/>
+          </div>
+        </MuiThemeProvider>
       );
     } else {
       return (

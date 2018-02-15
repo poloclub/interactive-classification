@@ -22,7 +22,7 @@
 }
 
 #brush-container {
-  border-top: solid 1px black;
+  margin-top:-15px;
   border-bottom: solid 1px black;
   width: 120px;
 }
@@ -32,7 +32,6 @@
   height: 15px;
   border-radius: 5px;  
   outline: none;
-  margin-bottom: 10px;
 }
 
 #draw-canvas {
@@ -49,4 +48,18 @@
 
 #reset-button {
   margin-top: 20px;
+}
+
+svg {
+  margin-top: -40px;
+}
+
+.table {
+  margin-top: 5px;
+  margin-left: -10px;
+}
+
+.classification {
+  white-space: 'normal';
+  word-wrap: 'break-word';
 }

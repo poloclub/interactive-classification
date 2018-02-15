@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import drawImage, {predict, inpaint} from './util.js';
+import {Table, TableBody} from 'material-ui';
 import './App.css';
 
 class Modified extends Component {
@@ -23,16 +24,16 @@ class Modified extends Component {
     }
 
     mouseMove = (evt) => {
+        const ctx = this.cDraw.getContext('2d');
+        const rect = this.cDraw.getBoundingClientRect();
+        var x = evt.clientX - rect.left;
+        var y = evt.clientY - rect.top;
         if (this.state.mouseDown) {
             // Drawing from http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/
-
-            const ctx = this.cDraw.getContext('2d');
-            const rect = this.cDraw.getBoundingClientRect();
-
             const clickX = this.state.clickX;
             const clickY = this.state.clickY;
-            clickX.push(evt.clientX - rect.left)
-            clickY.push(evt.clientY - rect.top)
+            clickX.push(x)
+            clickY.push(y)
 
             ctx.clearRect(0, 0, 227, 227);
   
@@ -49,6 +50,17 @@ class Modified extends Component {
                 }
                 ctx.stroke();
             }
+        } else {
+            ctx.clearRect(0, 0, 227, 227);
+  
+            ctx.strokeStyle = 'rgba(237, 17, 175, 0.5)';
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.lineWidth = this.props.brushSize * 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
         }
     }
 
@@ -66,6 +78,8 @@ class Modified extends Component {
     }
 
     mouseLeave = () => {
+       const ctx = this.cDraw.getContext('2d');
+       ctx.clearRect(0, 0, 227, 227);
        this.setState({
            mouseDown: false
        }) 
@@ -108,9 +122,11 @@ class Modified extends Component {
                         onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
-                <div id="modified-results">
-                    {this.state.results}
-                </div>
+                <Table className="table">
+                    <TableBody displayRowCheckbox={false}>
+                        {this.state.results}
+                    </TableBody>
+                </Table>
             </div>
         );
     }

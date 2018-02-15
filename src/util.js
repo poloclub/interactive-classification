@@ -1,6 +1,7 @@
 import React from 'react';
 import {Array3D} from 'deeplearn';
 import {InpaintTelea} from './inpaint';
+import {TableRow, TableRowColumn} from 'material-ui';
 
 export function drawImage(ctx, src, callback) {
     var img = new Image(227, 227);
@@ -23,7 +24,11 @@ export function predict(img, net, callback) {
     net.getTopKClasses(res, 5).then((topK) => {
         console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
         for (const key in topK) {
-            top.push(<h4 key={key}>{topK[key].toFixed(5)}: {key}</h4>);
+            top.push(
+                <TableRow>
+                    <TableRowColumn>{topK[key].toFixed(5)}</TableRowColumn>
+                    <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{key}</TableRowColumn>
+                </TableRow>);
         }
         callback(top);
     });
