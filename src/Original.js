@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import drawImage, {predict} from './util.js';
-import {Table, TableBody} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
 import './App.css';
 
 class Original extends Component {
@@ -42,11 +42,17 @@ class Original extends Component {
           <div className="box" id="modified">
               <h2>Original Image</h2>
               <canvas id="original-canvas" height="227px" width="227px" ref={c => this.c = c}></canvas>
-              <Table className="table">
-                  <TableBody displayRowCheckbox={false}>
-                    {this.state.results}
-                  </TableBody>
-              </Table>
+                <Table className="table" selectable={false}>
+                    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                        <TableRow className="header-row">
+                            <TableHeaderColumn>Class</TableHeaderColumn>
+                            <TableHeaderColumn>Confidence</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody displayRowCheckbox={false}>
+                        {this.state.results}
+                    </TableBody>
+                </Table>
           </div>
       );
     }

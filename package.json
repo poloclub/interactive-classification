@@ -10,6 +10,7 @@
     "react-dom": "^16.2.0",
     "react-scripts": "1.1.0",
     "requirejs": "^2.3.5",
+    "stackblur-canvas": "^1.4.1",
     "typescript": "^2.7.1"
   },
   "scripts": {

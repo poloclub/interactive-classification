@@ -23,7 +23,6 @@
 
 #brush-container {
   margin-top:-15px;
-  border-bottom: solid 1px black;
   width: 120px;
 }
 
@@ -62,4 +61,18 @@ svg {
 .classification {
   white-space: 'normal';
   word-wrap: 'break-word';
+}
+
+.blur-button {
+  margin-top: -40px;
+}
+
+#blur-container {
+  border-bottom: 1px solid black;
+  border-top: 1px solid black;
+  padding-bottom: 20px;
+}
+
+.header-row {
+  margin-left: -50px;
 }

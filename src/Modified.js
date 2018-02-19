@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import drawImage, {predict, inpaint} from './util.js';
-import {Table, TableBody} from 'material-ui';
+import {Table, TableHeader, TableRowColumn, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
 
 class Modified extends Component {
@@ -9,6 +10,7 @@ class Modified extends Component {
 
         this.state = {
             results: [],
+            image: 'boat.jpg',
             mouseDown: false,
             clickX: [],
             clickY: []
@@ -86,6 +88,9 @@ class Modified extends Component {
     }
 
     componentDidMount() {
+        this.setState({
+            image: 'boat.jpg'
+        });
         const ctx = this.cImg.getContext('2d');
         drawImage(ctx, this.props.image, function(img) {
             predict(img, this.props.net, function(top) {
@@ -97,7 +102,7 @@ class Modified extends Component {
     }
 
     componentWillReceiveProps(nProps) {
-        if (this.props.brushSize === nProps.brushSize) {
+        if (nProps.reset || nProps.image != this.props.image) {
             const ctx = this.cImg.getContext('2d');
             drawImage(ctx, nProps.image, function(img) {
                 predict(img, nProps.net, function(top) {
@@ -105,6 +110,13 @@ class Modified extends Component {
                         results: top
                     });
                 }.bind(this));
+            }.bind(this));
+        } else if (nProps.blur) {
+            canvasRGB(this.cImg, 0, 0, 227, 227, this.props.blurSize);
+            predict(this.cImg, nProps.net, function(top) {
+                this.setState({
+                    results: top
+                });
             }.bind(this));
         }
         this.props = nProps;
@@ -122,7 +134,13 @@ class Modified extends Component {
                         onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
-                <Table className="table">
+                <Table className="table" selectable={false}>
+                    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                        <TableRow className="header-row">
+                            <TableHeaderColumn>Class</TableHeaderColumn>
+                            <TableHeaderColumn>Confidence</TableHeaderColumn>
+                        </TableRow>
+                    </TableHeader>
                     <TableBody displayRowCheckbox={false}>
                         {this.state.results}
                     </TableBody>

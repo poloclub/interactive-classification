@@ -1,5 +1,5 @@
 import React from 'react';
-import {Array3D} from 'deeplearn';
+import {Array3D, ENV} from 'deeplearn';
 import {InpaintTelea} from './inpaint';
 import {TableRow, TableRowColumn} from 'material-ui';
 
@@ -16,18 +16,33 @@ export function drawImage(ctx, src, callback) {
 
 export function predict(img, net, callback) {
     const pixels = Array3D.fromPixels(img);
+    var math = ENV.math;
 
     var t0 = performance.now();
-    const res = net.predict(pixels);
+    const resAll = net.predictWithActivation(pixels, 'conv10');
+    // WIP for class activation mapping
+    /*
+    var im = math.slice3D(resAll.activation, [0,0,0], [13, 13, 1]).as2D(13, 13);
+    im.data().then((d) => {
+        var imgArr = Int16Array.from(d);
+        var max = Math.max.apply(Math, imgArr);
+        var min = Math.min.apply(Math, imgArr);
+        var normed = imgArr.map(function(d) {
+            return ((d - min)/max) * 225;
+        })
+        console.log(normed);
+    });
+    */
+    const res = resAll.logits;
     
     var top = [];
     net.getTopKClasses(res, 5).then((topK) => {
         console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
         for (const key in topK) {
             top.push(
-                <TableRow>
-                    <TableRowColumn>{topK[key].toFixed(5)}</TableRowColumn>
+                <TableRow key={key}>
                     <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{key}</TableRowColumn>
+                    <TableRowColumn>{(topK[key]*100.0).toFixed(2)}%</TableRowColumn>
                 </TableRow>);
         }
         callback(top);
