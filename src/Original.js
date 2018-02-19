@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import drawImage, {predict} from './util.js';
+import drawImage, {predict, createRows} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
 import './App.css';
 
@@ -15,10 +15,12 @@ class Original extends Component {
     componentDidMount() {
         const ctx = this.c.getContext('2d');
         drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, function(top) {
+            predict(img, this.props.net, null, function(top) {
+                let rows = createRows(top);
                 this.setState({
-                    results: top
+                    results: rows
                 });
+                this.props.updateKeys(top);
             }.bind(this));
         }.bind(this));
     }
@@ -27,10 +29,12 @@ class Original extends Component {
         if (this.props.image !== nProps.image) {
             const ctx = this.c.getContext('2d');
             drawImage(ctx, nProps.image, function(img) {
-                predict(img, nProps.net, function(top) {
+                predict(img, this.props.net, null, function(top) {
+                    let rows = createRows(top);
                     this.setState({
-                        results: top
+                        results: rows
                     });
+                    this.props.updateKeys(top);
                 }.bind(this));
             }.bind(this));
         }

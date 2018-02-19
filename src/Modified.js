@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import drawImage, {predict, inpaint} from './util.js';
-import {Table, TableHeader, TableRowColumn, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {predict, inpaint, drawImage, createCompRows} from './util.js';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
 import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
 
@@ -10,7 +10,6 @@ class Modified extends Component {
 
         this.state = {
             results: [],
-            image: 'boat.jpg',
             mouseDown: false,
             clickX: [],
             clickY: []
@@ -28,8 +27,8 @@ class Modified extends Component {
     mouseMove = (evt) => {
         const ctx = this.cDraw.getContext('2d');
         const rect = this.cDraw.getBoundingClientRect();
-        var x = evt.clientX - rect.left;
-        var y = evt.clientY - rect.top;
+        const x = evt.clientX - rect.left;
+        const y = evt.clientY - rect.top;
         if (this.state.mouseDown) {
             // Drawing from http://www.williammalone.com/articles/create-html5-canvas-javascript-drawing-app/
             const clickX = this.state.clickX;
@@ -47,7 +46,7 @@ class Modified extends Component {
             if (clickX.length > 1) {
                 ctx.beginPath();
                 ctx.moveTo(clickX[0], clickY[0]);
-                for(var i = 1; i < clickX.length; i++) {		
+                for(let i = 1; i < clickX.length; i++) {		
                     ctx.lineTo(clickX[i], clickY[i]);
                 }
                 ctx.stroke();
@@ -71,10 +70,11 @@ class Modified extends Component {
             mouseDown: false
         }) 
 
-        var img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
-        predict(img, this.props.net, function(top) {
+        const img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
+        predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+            const rows = createCompRows(top, this.props.topK);
             this.setState({
-                results: top
+                results: rows
             });
         }.bind(this));
     }
@@ -88,34 +88,34 @@ class Modified extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            image: 'boat.jpg'
-        });
         const ctx = this.cImg.getContext('2d');
         drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, function(top) {
+            predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+                let rows = createCompRows(top, this.props.topK);
                 this.setState({
-                    results: top
+                    results: rows
                 });
             }.bind(this));
         }.bind(this));
     }
 
     componentWillReceiveProps(nProps) {
-        if (nProps.reset || nProps.image != this.props.image) {
+        if (nProps.reset || nProps.image !== this.props.image) {
             const ctx = this.cImg.getContext('2d');
-            drawImage(ctx, nProps.image, function(img) {
-                predict(img, nProps.net, function(top) {
+            drawImage(ctx, this.props.image, function(img) {
+                predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+                    let rows = createCompRows(top, this.props.topK);
                     this.setState({
-                        results: top
+                        results: rows
                     });
                 }.bind(this));
             }.bind(this));
         } else if (nProps.blur) {
             canvasRGB(this.cImg, 0, 0, 227, 227, this.props.blurSize);
-            predict(this.cImg, nProps.net, function(top) {
+            predict(this.cImg, nProps.net, this.props.topK.map(val => val[0]), function(top) {
+                let rows = createCompRows(top, this.props.topK);
                 this.setState({
-                    results: top
+                    results: rows
                 });
             }.bind(this));
         }
@@ -139,6 +139,7 @@ class Modified extends Component {
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
                             <TableHeaderColumn>Confidence</TableHeaderColumn>
+                            <TableHeaderColumn>Change</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>

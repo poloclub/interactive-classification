@@ -16,12 +16,13 @@ class App extends Component {
     super(props);
     
     this.state = {
-      image: 'boat.jpg',
       netStatus: 'Loading SqueezeNet',
+      image: 'boat.jpg',
+      topK: [],
       brushSize: 15,
-      blurSize: 0,
-      reset: 0,
-      blur: 0
+      blurSize: 2,
+      blur: 0,
+      reset: 0
     };
 
     this.math = ENV.math;
@@ -33,21 +34,27 @@ class App extends Component {
     });
   }
 
-  imageChanged = (val) => {
+  imageChanged = (e, i, val) => {
     this.setState({
       image: val
     });
   }
 
-  blurChanged = (val) => {
+  blurChanged = (e, val) => {
     this.setState({
       blurSize: val
     });
   }
 
-  brushChanged = (val) => {
+  brushChanged = (e, val) => {
     this.setState({
       brushSize: val
+    });
+  }
+
+  updateTop = (k) => {
+    this.setState({
+      topK: k
     });
   }
   
@@ -76,10 +83,11 @@ class App extends Component {
       return (
         <MuiThemeProvider>
           <div id="main">
-            <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} />
+            <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
+                     blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} />
             <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
-                      reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c}/>
-            <Original image={this.state.image} net={this.net}/>
+                      reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
+            <Original image={this.state.image} net={this.net} updateKeys={this.updateTop} />
           </div>
         </MuiThemeProvider>
       );
