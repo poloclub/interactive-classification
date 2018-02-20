@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {predict, inpaint, drawImage, createCompRows} from './util.js';
-import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Toggle} from 'material-ui';
 import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
 
@@ -12,7 +12,8 @@ class Modified extends Component {
             results: [],
             mouseDown: false,
             clickX: [],
-            clickY: []
+            clickY: [],
+            order: false
         };
     }
 
@@ -71,7 +72,12 @@ class Modified extends Component {
         }) 
 
         const img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
-        predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+
+        let classes = null;
+        if (!this.state.order) {
+            classes = this.props.topK.map(val => val[0]);
+        }
+        predict(img, this.props.net, classes, function(top) {
             const rows = createCompRows(top, this.props.topK);
             this.setState({
                 results: rows
@@ -87,11 +93,35 @@ class Modified extends Component {
        }) 
     }
 
+    changeOrder = (e, val) => {
+        if (!val) {
+            predict(this.cImg, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+                let rows = createCompRows(top, this.props.topK);
+                this.setState({
+                    results: rows
+                });
+            }.bind(this));
+            this.setState({
+                order: false
+            });
+        } else {
+            predict(this.cImg, this.props.net, null, function(top) {
+                let rows = createCompRows(top, this.props.topK);
+                this.setState({
+                    results: rows
+                });
+            }.bind(this));
+            this.setState({
+                order: true
+            });
+        }
+    }
+
     componentDidMount() {
         const ctx = this.cImg.getContext('2d');
         drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
-                let rows = createCompRows(top, this.props.topK);
+            predict(img, this.props.net, null, function(top) {
+                let rows = createCompRows(top, null);
                 this.setState({
                     results: rows
                 });
@@ -100,10 +130,15 @@ class Modified extends Component {
     }
 
     componentWillReceiveProps(nProps) {
+        let classes = null;
+        if (!this.state.order) {
+            classes = this.props.topK.map(val => val[0]);
+        }
         if (nProps.reset || nProps.image !== this.props.image) {
+            classes = null;
             const ctx = this.cImg.getContext('2d');
-            drawImage(ctx, this.props.image, function(img) {
-                predict(img, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+            drawImage(ctx, nProps.image, function(img) {
+                predict(img, this.props.net, classes, function(top) {
                     let rows = createCompRows(top, this.props.topK);
                     this.setState({
                         results: rows
@@ -112,7 +147,7 @@ class Modified extends Component {
             }.bind(this));
         } else if (nProps.blur) {
             canvasRGB(this.cImg, 0, 0, 227, 227, this.props.blurSize);
-            predict(this.cImg, nProps.net, this.props.topK.map(val => val[0]), function(top) {
+            predict(this.cImg, nProps.net, classes, function(top) {
                 let rows = createCompRows(top, this.props.topK);
                 this.setState({
                     results: rows
@@ -134,6 +169,7 @@ class Modified extends Component {
                         onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
+                <Toggle style={{ display: 'inline-block', width: '130px', marginLeft: '25px'}} label="Top Order" onToggle={this.changeOrder} />
                 <Table className="table" selectable={false}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">

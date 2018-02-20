@@ -4,7 +4,7 @@ import {InpaintTelea} from './inpaint';
 import {TableRow, TableRowColumn} from 'material-ui';
 
 export function drawImage(ctx, src, callback) {
-    var img = new Image(227, 227);
+    const img = new Image(227, 227);
     img.src = src;
 
     img.onload = function () {
@@ -39,7 +39,7 @@ export function predict(img, net, classes, callback) {
     if (classes == null) {
         net.getTopKClasses(res, 5).then((topK) => {
             console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
-            for (const key in topK) {
+            for (let key in topK) {
                 top.push([key, (topK[key]*100.0).toFixed(2)]);
             }
             callback(top);
@@ -101,7 +101,10 @@ export function createRows(top) {
 export function createCompRows(top, topK) {
     let rows = []
     top.forEach((key, i) => {
-        let change = parseFloat(key[1]) - parseFloat(topK[i][1]);
+        let change = 0
+        if(topK != null) {
+            change = parseFloat(key[1]) - parseFloat(topK[i][1]);
+        } 
         let color = 'black';
         if (change < 0) {
             color = 'red'; 
