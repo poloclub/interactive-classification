@@ -18,7 +18,7 @@ class App extends Component {
     this.state = {
       netStatus: 'Loading SqueezeNet',
       image: 'boat.jpg',
-      topK: [],
+      topK: new Map(),
       brushSize: 15,
       blurSize: 2,
       blur: 0,

@@ -12,9 +12,9 @@ class Original extends Component {
       };
     }
 
-    componentDidMount() {
+    drawAndUpdate = (image) => {
         const ctx = this.c.getContext('2d');
-        drawImage(ctx, this.props.image, function(img) {
+        drawImage(ctx, image, function(img) {
             predict(img, this.props.net, null, function(top) {
                 let rows = createRows(top);
                 this.setState({
@@ -25,18 +25,13 @@ class Original extends Component {
         }.bind(this));
     }
 
+    componentDidMount() {
+        this.drawAndUpdate(this.props.image);
+    }
+
     componentWillReceiveProps(nProps) {
         if (this.props.image !== nProps.image) {
-            const ctx = this.c.getContext('2d');
-            drawImage(ctx, nProps.image, function(img) {
-                predict(img, this.props.net, null, function(top) {
-                    let rows = createRows(top);
-                    this.setState({
-                        results: rows
-                    });
-                    this.props.updateKeys(top);
-                }.bind(this));
-            }.bind(this));
+            this.drawAndUpdate(nProps.image);
         }
         this.props = nProps;
     }

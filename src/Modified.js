@@ -75,7 +75,7 @@ class Modified extends Component {
 
         let classes = null;
         if (!this.state.order) {
-            classes = this.props.topK.map(val => val[0]);
+            classes = Array.from(this.props.topK.keys());
         }
         predict(img, this.props.net, classes, function(top) {
             const rows = createCompRows(top, this.props.topK);
@@ -95,7 +95,7 @@ class Modified extends Component {
 
     changeOrder = (e, val) => {
         if (!val) {
-            predict(this.cImg, this.props.net, this.props.topK.map(val => val[0]), function(top) {
+            predict(this.cImg, this.props.net, Array.from(this.props.topK.keys()), function(top) {
                 let rows = createCompRows(top, this.props.topK);
                 this.setState({
                     results: rows
@@ -132,7 +132,7 @@ class Modified extends Component {
     componentWillReceiveProps(nProps) {
         let classes = null;
         if (!this.state.order) {
-            classes = this.props.topK.map(val => val[0]);
+            classes = Array.from(this.props.topK.keys());
         }
         if (nProps.reset || nProps.image !== this.props.image) {
             classes = null;

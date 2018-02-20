@@ -35,22 +35,22 @@ export function predict(img, net, classes, callback) {
     */
     const res = resAll.logits;
     
-    const top = [];
+    const map = new Map();
     if (classes == null) {
-        net.getTopKClasses(res, 5).then((topK) => {
+        net.getTopKClasses(res, 1000).then((topK) => {
             console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
             for (let key in topK) {
-                top.push([key, (topK[key]*100.0).toFixed(2)]);
+                map.set(key, (topK[key]*100.0).toFixed(2));
             }
-            callback(top);
+            callback(map);
         });
     } else {
         net.getTopKClasses(res, 1000).then((topK) => {
             console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
             for (let i = 0; i < 5; i++) {
-                top.push([classes[i], (topK[classes[i]]*100.0).toFixed(2)]);
+                map.set(classes[i], (topK[classes[i]]*100.0).toFixed(2));
             }
-            callback(top);
+            callback(map);
         });
     }
 }
@@ -89,22 +89,30 @@ export function inpaint(iCtx, dCtx, ) {
 
 export function createRows(top) {
     let rows = []
-    top.forEach((key) => {
-        rows.push(<TableRow key={key[0]}>
-            <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{key[0]}</TableRowColumn>
-            <TableRowColumn>{key[1]}%</TableRowColumn>
+    let entries = top.entries();
+    for (let i = 0; i < 5; i++) {
+        let pair = entries.next().value;
+        rows.push(<TableRow key={pair[0]}>
+            <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{pair[0]}</TableRowColumn>
+            <TableRowColumn>{pair[1]}%</TableRowColumn>
         </TableRow>);
-    });
+
+    }
     return rows;
 }
 
-export function createCompRows(top, topK) {
+export function createCompRows(top, originalTop) {
     let rows = []
-    top.forEach((key, i) => {
+    let entries = top.entries();
+
+    for (let i = 0; i < 5; i++) {
+        let pair = entries.next().value;
+
         let change = 0
-        if(topK != null) {
-            change = parseFloat(key[1]) - parseFloat(topK[i][1]);
+        if(originalTop != null) {
+            change = parseFloat(pair[1]) - parseFloat(originalTop.get(pair[0]));
         } 
+
         let color = 'black';
         if (change < 0) {
             color = 'red'; 
@@ -112,12 +120,12 @@ export function createCompRows(top, topK) {
             color = 'green';
         }
 
-        rows.push(<TableRow key={key[0]}>
-            <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{key[0]}</TableRowColumn>
-            <TableRowColumn>{key[1]}%</TableRowColumn>
+        rows.push(<TableRow key={pair[0]}>
+            <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{pair[0]}</TableRowColumn>
+            <TableRowColumn>{pair[1]}%</TableRowColumn>
             <TableRowColumn style={{color: color}}>{change.toFixed(2)}%</TableRowColumn>
         </TableRow>);
-    });
+    }
     return rows;
 }
 
