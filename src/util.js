@@ -14,6 +14,31 @@ export function drawImage(ctx, src, callback) {
     }
 }
 
+export function drawCAM(img, net, canvas, id) {
+    const pixels = dl.fromPixels(img);
+    const resized = dl.image.resizeBilinear(pixels, [227, 227]);
+
+    const result = net.predictWithActivation(resized, 'fire9');
+    const weights = net.getLastWeights();
+    let cam = net.CAM(weights, result.activation, id);
+    cam = new Uint8Array(cam.dataSync());
+    let buff = new Uint8ClampedArray(227*227*4);
+    for (let y = 0; y < 227; y++) {
+    for (let x = 0; x < 227; x++) {
+        let pos = (y * 227 + x) * 4;
+        buff[pos] = 255;
+        buff[pos + 1] = 0;
+        buff[pos + 2] = 255;
+        buff[pos + 3] = cam[pos/4];
+    }
+    }
+
+    const ctx = canvas.getContext('2d');
+    let iData = ctx.createImageData(227, 227);
+    iData.data.set(buff);
+    ctx.putImageData(iData, 0, 0);
+}
+
 export function predict(img, net, classes, callback) {
     const pixels = dl.fromPixels(img);
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
@@ -74,15 +99,15 @@ export function inpaint(iCtx, dCtx, ) {
 }
 
 
-export function createRows(top) {
+export function createRows(top, callback) {
     let rows = []
     let entries = top.entries();
     for (let i = 0; i < 5; i++) {
         let pair = entries.next().value;
         rows.push(<TableRow key={pair[0]}>
-            <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{pair[0]}</TableRowColumn>
-            <TableRowColumn>{pair[1]}%</TableRowColumn>
-        </TableRow>);
+                        <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{pair[0]}</TableRowColumn>
+                        <TableRowColumn>{pair[1]}%</TableRowColumn>
+                    </TableRow>);
 
     }
     return rows;

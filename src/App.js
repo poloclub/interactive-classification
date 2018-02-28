@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 
 import * as dl from 'deeplearn';
-import {SqueezeNet} from 'deeplearn-squeezenet';
+//import {SqueezeNet} from 'deeplearn-squeezenet';
+import {SqueezeNet, getLastWeights} from './squeezenet/squeezenet.js';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Options from './Options.js';
@@ -9,7 +10,6 @@ import Modified from './Modified.js';
 import Original from './Original.js';
 
 import './App.css';
-
 
 class App extends Component {
   constructor(props) {

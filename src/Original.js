@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import drawImage, {predict, createRows} from './util.js';
+import drawImage, {predict, createRows, drawCAM} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import './App.css';
 
 class Original extends Component {
@@ -12,11 +13,24 @@ class Original extends Component {
       };
     }
 
+    drawCAM = (e) => {
+        if (e.length != 0) {
+            let ar = Object.assign([], IMAGENET_CLASSES);
+            let row = this.state.results[e[0]];
+            let index = ar.indexOf(row.key);
+            drawCAM(this.cImg, this.props.net, this.cCam, index);
+            console.log(index);
+        } else {
+            const ctx = this.cCam.getContext('2d');
+            ctx.clearRect(0, 0, 227, 227);
+        }
+    }
+
     drawAndUpdate = (image) => {
-        const ctx = this.c.getContext('2d');
+        const ctx = this.cImg.getContext('2d');
         drawImage(ctx, image, function(img) {
             predict(img, this.props.net, null, function(top) {
-                let rows = createRows(top);
+                let rows = createRows(top, this.drawCAM);
                 this.setState({
                     results: rows
                 });
@@ -40,8 +54,9 @@ class Original extends Component {
       return (
           <div className="box" id="modified">
               <h2>Original Image</h2>
-              <canvas id="original-canvas" height="227px" width="227px" ref={c => this.c = c}></canvas>
-                <Table className="table">
+              <canvas id="original-canvas" height="227px" width="227px" ref={c => this.cImg = c}></canvas>
+              <canvas id="original-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+                <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
