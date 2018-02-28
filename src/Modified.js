@@ -170,7 +170,7 @@ class Modified extends Component {
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
                 <Toggle style={{ display: 'inline-block', width: '130px', marginLeft: '25px'}} label="Top Order" onToggle={this.changeOrder} />
-                <Table className="table" selectable={false}>
+                <Table className="table">
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>

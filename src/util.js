@@ -1,5 +1,5 @@
 import React from 'react';
-import {Array3D} from 'deeplearn';
+import * as dl from 'deeplearn';
 import {InpaintTelea} from './inpaint';
 import {TableRow, TableRowColumn} from 'material-ui';
 
@@ -15,30 +15,18 @@ export function drawImage(ctx, src, callback) {
 }
 
 export function predict(img, net, classes, callback) {
-    const pixels = Array3D.fromPixels(img);
-    //var math = ENV.math;
+    const pixels = dl.fromPixels(img);
+    const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = net.predictWithActivation(pixels, 'conv10');
-    // WIP for class activation mapping
-    /*
-    var im = math.slice3D(resAll.activation, [0,0,0], [13, 13, 1]).as2D(13, 13);
-    im.data().then((d) => {
-        var imgArr = Int16Array.from(d);
-        var max = Math.max.apply(Math, imgArr);
-        var min = Math.min.apply(Math, imgArr);
-        var normed = imgArr.map(function(d) {
-            return ((d - min)/max) * 225;
-        })
-        console.log(normed);
-    });
-    */
+    const resAll = net.predictWithActivation(resized, 'conv10');
+    console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
+
     const res = resAll.logits;
     
     const map = new Map();
     if (classes == null) {
         net.getTopKClasses(res, 1000).then((topK) => {
-            console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
             for (let key in topK) {
                 map.set(key, (topK[key]*100.0).toFixed(2));
             }
@@ -46,7 +34,6 @@ export function predict(img, net, classes, callback) {
         });
     } else {
         net.getTopKClasses(res, 1000).then((topK) => {
-            console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
             for (let i = 0; i < 5; i++) {
                 map.set(classes[i], (topK[classes[i]]*100.0).toFixed(2));
             }

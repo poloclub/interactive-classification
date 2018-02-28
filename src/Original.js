@@ -41,7 +41,7 @@ class Original extends Component {
           <div className="box" id="modified">
               <h2>Original Image</h2>
               <canvas id="original-canvas" height="227px" width="227px" ref={c => this.c = c}></canvas>
-                <Table className="table" selectable={false}>
+                <Table className="table">
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>

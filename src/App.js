@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {ENV} from 'deeplearn';
+import * as dl from 'deeplearn';
 import {SqueezeNet} from 'deeplearn-squeezenet';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
@@ -25,7 +25,7 @@ class App extends Component {
       reset: 0
     };
 
-    this.math = ENV.math;
+    this.math = dl.ENV.math;
     this.net = new SqueezeNet(this.math);
     this.net.load().then(() => {
       this.setState({
