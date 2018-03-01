@@ -9,7 +9,8 @@ class Original extends Component {
       super(props);
 
       this.state = {
-        results: []
+        results: [],
+        activation: null
       };
     }
 
@@ -18,8 +19,7 @@ class Original extends Component {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
-            drawCAM(this.cImg, this.props.net, this.cCam, index);
-            console.log(index);
+            drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
         } else {
             const ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
@@ -29,10 +29,11 @@ class Original extends Component {
     drawAndUpdate = (image) => {
         const ctx = this.cImg.getContext('2d');
         drawImage(ctx, image, function(img) {
-            predict(img, this.props.net, null, function(top) {
+            predict(img, this.props.net, null, function(top, activation) {
                 let rows = createRows(top, this.drawCAM);
                 this.setState({
-                    results: rows
+                    results: rows,
+                    activation: activation
                 });
                 this.props.updateKeys(top);
             }.bind(this));

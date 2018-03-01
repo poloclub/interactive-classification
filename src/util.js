@@ -14,13 +14,12 @@ export function drawImage(ctx, src, callback) {
     }
 }
 
-export function drawCAM(img, net, canvas, id) {
+export function drawCAM(img, net, activation, canvas, id) {
     const pixels = dl.fromPixels(img);
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
-    const result = net.predictWithActivation(resized, 'fire9');
     const weights = net.getLastWeights();
-    let cam = net.CAM(weights, result.activation, id);
+    let cam = net.CAM(weights, activation, id);
     cam = new Uint8Array(cam.dataSync());
     let buff = new Uint8ClampedArray(227*227*4);
     for (let y = 0; y < 227; y++) {
@@ -44,7 +43,7 @@ export function predict(img, net, classes, callback) {
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = net.predictWithActivation(resized, 'conv10');
+    const resAll = net.predictWithActivation(resized, 'fire9');
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
     const res = resAll.logits;
@@ -55,14 +54,14 @@ export function predict(img, net, classes, callback) {
             for (let key in topK) {
                 map.set(key, (topK[key]*100.0).toFixed(2));
             }
-            callback(map);
+            callback(map, resAll.activation);
         });
     } else {
         net.getTopKClasses(res, 1000).then((topK) => {
             for (let i = 0; i < 5; i++) {
                 map.set(classes[i], (topK[classes[i]]*100.0).toFixed(2));
             }
-            callback(map);
+            callback(map, resAll.activation);
         });
     }
 }
