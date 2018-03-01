@@ -54,14 +54,14 @@ class Original extends Component {
     render() {
       return (
           <div className="box" id="modified">
-              <h2>Original Image</h2>
               <canvas id="original-canvas" height="227px" width="227px" ref={c => this.cImg = c}></canvas>
               <canvas id="original-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+              <h3>Original Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn>Confidence</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>

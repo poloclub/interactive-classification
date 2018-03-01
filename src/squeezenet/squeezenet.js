@@ -205,8 +205,6 @@ var SqueezeNet = (function () {
         cam = cam.reshape([13, 13]);
         cam = cam.sub(dl.min(cam));
         cam = cam.div(dl.max(cam));
-        cam = cam.mul(dl.scalar(255));
-        cam = cam.asType('int32');
         cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
         return cam;
     };

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 
 import * as dl from 'deeplearn';
 //import {SqueezeNet} from 'deeplearn-squeezenet';
-import {SqueezeNet, getLastWeights} from './squeezenet/squeezenet.js';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {SqueezeNet} from './squeezenet/squeezenet.js';
+import {MuiThemeProvider, Toolbar, ToolbarTitle} from 'material-ui';
 
 import Options from './Options.js';
 import Modified from './Modified.js';
@@ -19,6 +19,7 @@ class App extends Component {
       netStatus: 'Loading SqueezeNet',
       image: 'boat.jpg',
       topK: new Map(),
+      order: 0,
       brushSize: 15,
       blurSize: 2,
       blur: 0,
@@ -31,6 +32,12 @@ class App extends Component {
       this.setState({
         netStatus: 'Loaded'
       }) 
+    });
+  }
+
+  orderChanged = (e, val) => {
+    this.setState({
+      order: val
     });
   }
 
@@ -82,11 +89,14 @@ class App extends Component {
     if (this.state.netStatus === "Loaded") {
       return (
         <MuiThemeProvider>
+          <Toolbar>
+            <ToolbarTitle text="Deep Vis" />
+          </Toolbar>
           <div id="main">
             <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
-                     blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} />
+                     blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} orderChanged={this.orderChanged} />
             <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
-                      reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
+                      reset={this.state.reset} blur={this.state.blur} order={this.state.order} ref={(c) => this.mod = c} topK={this.state.topK} />
             <Original image={this.state.image} net={this.net} updateKeys={this.updateTop} />
           </div>
         </MuiThemeProvider>

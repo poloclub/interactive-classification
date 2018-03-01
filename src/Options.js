@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
-import RaisedButton from 'material-ui/RaisedButton';
-import Slider from 'material-ui/Slider';
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
+import {RaisedButton, Slider, SelectField, MenuItem, Toggle} from 'material-ui';
 import './App.css';
 
 class Options extends Component {
   render() {
     return (
       <div className="box" id="options">
-        <h1>Deep Vis</h1>
         <h4>Select Image:</h4>
         <SelectField onChange={this.props.imageChanged} value={this.props.image} fullWidth={true}>
           <MenuItem value="boat.jpg" primaryText="Boat"/>
@@ -31,6 +27,9 @@ class Options extends Component {
           <h4>Blur Radius:</h4>
           <Slider min={0.5} max={15} defaultValue={2} step={0.5} className='slider' onChange={this.props.blurChanged}/>
           <RaisedButton className="blur-button" label="Blur" primary={true} onClick={this.props.blur}/>
+        </div>
+        <div id="top-order">
+          <Toggle style={{ display: 'inline-block', width: '130px', marginLeft: '25px'}} label="Top Order" onToggle={this.props.orderChanged} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" primary={true} onClick={this.props.reset}/>

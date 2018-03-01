@@ -10,6 +10,7 @@
 #options {
   width: 150px;
   border-right: 1px solid grey;
+  padding-top: 10px;
 }
 
 #original {
@@ -63,7 +64,7 @@ svg {
 
 .table {
   margin-top: 5px;
-  margin-left: -10px;
+  margin-left: -23px;
 }
 
 .classification {
@@ -83,4 +84,18 @@ svg {
 
 .header-row {
   margin-left: -50px;
+}
+
+#top-order {
+  margin-left: -25px;
+  margin-top: 15px;
+}
+
+h3 {
+  margin-bottom: -3px;
+}
+
+.right {
+  text-align: right;
+  margin: auto;
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
-import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Toggle} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
@@ -14,7 +14,6 @@ class Modified extends Component {
             mouseDown: false,
             clickX: [],
             clickY: [],
-            order: false
         };
     }
 
@@ -107,7 +106,8 @@ class Modified extends Component {
         }
     }
 
-    changeOrder = (e, val) => {
+    changeOrder = (val) => {
+        console.log(val);
         if (!val) {
             predict(this.cImg, this.props.net, Array.from(this.props.topK.keys()), function(top, activation) {
                 let rows = createCompRows(top, this.props.topK);
@@ -116,9 +116,6 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
-            this.setState({
-                order: false
-            });
         } else {
             predict(this.cImg, this.props.net, null, function(top, activation) {
                 let rows = createCompRows(top, this.props.topK);
@@ -127,9 +124,6 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
-            this.setState({
-                order: true
-            });
         }
     }
 
@@ -172,6 +166,8 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
+        } else if (nProps.order != this.props.order) {
+            this.changeOrder(nProps.order);
         }
         this.props = nProps;
     }
@@ -179,7 +175,6 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="original">
-                <h2>Modified Image</h2>
                 <canvas id="modified-canvas" height="227px" width="227px" 
                         ref={cImg => this.cImg = cImg}> 
                 </canvas>
@@ -189,13 +184,13 @@ class Modified extends Component {
                         onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
-                <Toggle style={{ display: 'inline-block', width: '130px', marginLeft: '25px'}} label="Top Order" onToggle={this.changeOrder} />
+                <h3>Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn>Confidence</TableHeaderColumn>
-                            <TableHeaderColumn>Change</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Change</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
