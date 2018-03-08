@@ -89,15 +89,17 @@ class App extends Component {
     if (this.state.netStatus === "Loaded") {
       return (
         <MuiThemeProvider>
-          <Toolbar>
-            <ToolbarTitle text="Deep Vis" />
-          </Toolbar>
-          <div id="main">
-            <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
-                     blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} orderChanged={this.orderChanged} />
-            <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
-                      reset={this.state.reset} blur={this.state.blur} order={this.state.order} ref={(c) => this.mod = c} topK={this.state.topK} />
-            <Original image={this.state.image} net={this.net} updateKeys={this.updateTop} />
+          <div>
+            <Toolbar>
+              <ToolbarTitle text="Deep Vis" />
+            </Toolbar>
+            <div id="main">
+              <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
+                      blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} orderChanged={this.orderChanged} />
+              <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
+                        reset={this.state.reset} blur={this.state.blur} order={this.state.order} ref={(c) => this.mod = c} topK={this.state.topK} />
+              <Original image={this.state.image} net={this.net} updateKeys={this.updateTop} />
+            </div>
           </div>
         </MuiThemeProvider>
       );

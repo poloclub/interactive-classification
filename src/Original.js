@@ -61,7 +61,7 @@ class Original extends Component {
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence %</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>

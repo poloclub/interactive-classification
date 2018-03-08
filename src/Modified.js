@@ -14,6 +14,7 @@ class Modified extends Component {
             mouseDown: false,
             clickX: [],
             clickY: [],
+            cam: [-1]
         };
     }
 
@@ -74,7 +75,7 @@ class Modified extends Component {
         const img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
 
         let classes = null;
-        if (!this.state.order) {
+        if (!this.props.order) {
             classes = Array.from(this.props.topK.keys());
         }
         predict(img, this.props.net, classes, function(top, activation) {
@@ -82,7 +83,7 @@ class Modified extends Component {
             this.setState({
                 results: rows,
                 activation: activation
-            });
+            }, () => {if (this.state.cam[0] != -1) this.drawCAM(null)});
         }.bind(this));
     }
 
@@ -95,19 +96,28 @@ class Modified extends Component {
     }
 
     drawCAM = (e) => {
-        if (e.length != 0) {
+        if (e == null || e[0] != this.state.cam[0]) {
+            if (e == null) {
+                e = this.state.cam;
+            }
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
+            console.log(row);
             let index = ar.indexOf(row.key);
             drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
+            this.setState({
+                cam: e
+            })
         } else {
             const ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
+            this.setState({
+                cam: [-1]
+            })
         }
     }
 
     changeOrder = (val) => {
-        console.log(val);
         if (!val) {
             predict(this.cImg, this.props.net, Array.from(this.props.topK.keys()), function(top, activation) {
                 let rows = createCompRows(top, this.props.topK);
@@ -142,18 +152,20 @@ class Modified extends Component {
 
     componentWillReceiveProps(nProps) {
         let classes = null;
-        if (!this.state.order) {
+        if (!this.props.order) {
             classes = Array.from(this.props.topK.keys());
         }
         if (nProps.reset || nProps.image !== this.props.image) {
-            classes = null;
-            const ctx = this.cImg.getContext('2d');
+            let ctx = this.cCam.getContext('2d');
+            ctx.clearRect(0, 0, 227, 227);
+            ctx = this.cImg.getContext('2d');
             drawImage(ctx, nProps.image, function(img) {
-                predict(img, this.props.net, classes, function(top, activation) {
-                    let rows = createCompRows(top, this.props.topK);
+                predict(img, nProps.net, null, function(top, activation) {
+                    let rows = createCompRows(top, null);
                     this.setState({
                         results: rows,
-                        activation: activation
+                        activation: activation,
+                        cam: [-1]
                     });
                 }.bind(this));
             }.bind(this));
@@ -164,7 +176,7 @@ class Modified extends Component {
                 this.setState({
                     results: rows,
                     activation: activation
-                });
+                }, () => {if (this.state.cam[0] != -1) this.drawCAM(null)});
             }.bind(this));
         } else if (nProps.order != this.props.order) {
             this.changeOrder(nProps.order);
@@ -189,8 +201,8 @@ class Modified extends Component {
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row">
                             <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right'}}>Change</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence %</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right'}}>Absolute % Change</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
                     <TableBody displayRowCheckbox={false}>
