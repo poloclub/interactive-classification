@@ -15,7 +15,7 @@ class Original extends Component {
     }
 
     drawCAM = (e) => {
-        if (e.length != 0) {
+        if (e.length !== 0) {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
@@ -53,7 +53,7 @@ class Original extends Component {
 
     render() {
       return (
-          <div className="box" id="modified">
+          <div className="box" id="original">
               <canvas id="original-canvas" height="227px" width="227px" ref={c => this.cImg = c}></canvas>
               <canvas id="original-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
               <h3>Original Image</h3>
@@ -64,7 +64,7 @@ class Original extends Component {
                             <TableHeaderColumn style={{textAlign: 'right'}}>Confidence %</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody displayRowCheckbox={false} showRowHover={true} deselectOnClickaway={false}>
                         {this.state.results}
                     </TableBody>
                 </Table>

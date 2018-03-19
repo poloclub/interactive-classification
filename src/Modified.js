@@ -14,6 +14,7 @@ class Modified extends Component {
             mouseDown: false,
             clickX: [],
             clickY: [],
+            order: 0,
             cam: [-1]
         };
     }
@@ -75,7 +76,7 @@ class Modified extends Component {
         const img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
 
         let classes = null;
-        if (!this.props.order) {
+        if (!this.state.order) {
             classes = Array.from(this.props.topK.keys());
         }
         predict(img, this.props.net, classes, function(top, activation) {
@@ -83,7 +84,7 @@ class Modified extends Component {
             this.setState({
                 results: rows,
                 activation: activation
-            }, () => {if (this.state.cam[0] != -1) this.drawCAM(null)});
+            }, () => {if (this.state.cam[0] !== -1) this.drawCAM(null)});
         }.bind(this));
     }
 
@@ -96,13 +97,12 @@ class Modified extends Component {
     }
 
     drawCAM = (e) => {
-        if (e == null || e[0] != this.state.cam[0]) {
+        if (e == null || e[0] !== this.state.cam[0]) {
             if (e == null) {
                 e = this.state.cam;
             }
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
-            console.log(row);
             let index = ar.indexOf(row.key);
             drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
             this.setState({
@@ -113,6 +113,21 @@ class Modified extends Component {
             ctx.clearRect(0, 0, 227, 227);
             this.setState({
                 cam: [-1]
+            })
+        }
+    }
+
+    orderChanged = (e, row, column) => {
+        console.log(e.target);
+        if (this.state.order) {
+            e.target.innerHTML = 'Confidence %';
+        } else {
+            e.target.innerHTML = '↓ Confidence %';
+        }
+        if (column === 2) {
+            this.changeOrder(!this.state.order);
+            this.setState({
+                order: !this.state.order
             })
         }
     }
@@ -152,7 +167,7 @@ class Modified extends Component {
 
     componentWillReceiveProps(nProps) {
         let classes = null;
-        if (!this.props.order) {
+        if (!this.state.order) {
             classes = Array.from(this.props.topK.keys());
         }
         if (nProps.reset || nProps.image !== this.props.image) {
@@ -176,17 +191,15 @@ class Modified extends Component {
                 this.setState({
                     results: rows,
                     activation: activation
-                }, () => {if (this.state.cam[0] != -1) this.drawCAM(null)});
+                }, () => {if (this.state.cam[0] !== -1) this.drawCAM(null)});
             }.bind(this));
-        } else if (nProps.order != this.props.order) {
-            this.changeOrder(nProps.order);
         }
         this.props = nProps;
     }
 
     render() {
         return (
-            <div className="box" id="original">
+            <div className="box" id="modified">
                 <canvas id="modified-canvas" height="227px" width="227px" 
                         ref={cImg => this.cImg = cImg}> 
                 </canvas>
@@ -199,13 +212,13 @@ class Modified extends Component {
                 <h3>Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                        <TableRow className="header-row">
+                        <TableRow className="header-row" onCellClick={(e, f, g) => this.orderChanged(e, f, g)}>
                             <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right'}}>Confidence %</TableHeaderColumn>
+                            <TableHeaderColumn style={{textAlign: 'right', cursor: 'pointer'}}>Confidence %</TableHeaderColumn>
                             <TableHeaderColumn style={{textAlign: 'right'}}>Absolute % Change</TableHeaderColumn>
                         </TableRow>
                     </TableHeader>
-                    <TableBody displayRowCheckbox={false}>
+                    <TableBody displayRowCheckbox={false} showRowHover={true} deselectOnClickaway={false}>
                         {this.state.results}
                     </TableBody>
                 </Table>
