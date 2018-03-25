@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import * as dl from 'deeplearn';
-//import {SqueezeNet} from 'deeplearn-squeezenet';
 import {SqueezeNet} from './squeezenet/squeezenet.js';
 import {MuiThemeProvider, Toolbar, ToolbarTitle} from 'material-ui';
 import {indigo800, red800} from 'material-ui/styles/colors';
@@ -26,7 +25,7 @@ class App extends Component {
     
     this.state = {
       netStatus: 'Loading SqueezeNet',
-      image: 'boat.png',
+      image: 'lighthouse.jpg',
       topK: new Map(),
       brushSize: 15,
       blurSize: 2,
@@ -93,7 +92,7 @@ class App extends Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <div id="mui-container">
             <Toolbar id="header" style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}>
-              <ToolbarTitle text="Deep Vis" />
+              <ToolbarTitle text="Interactive Classification" />
             </Toolbar>
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 

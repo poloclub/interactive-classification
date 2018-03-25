@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {RaisedButton, Slider, SelectField, MenuItem, Toggle} from 'material-ui';
+import {RaisedButton, Slider, SelectField, MenuItem} from 'material-ui';
 import './App.css';
 
 class Options extends Component {
@@ -9,12 +9,20 @@ class Options extends Component {
         <div id="select-container">
           <h4>Select Image</h4>
           <SelectField onChange={this.props.imageChanged} value={this.props.image} fullWidth={true}>
+            <MenuItem value="lighthouse.jpg" primaryText="Lighthouse"/>
+            <MenuItem value="sailboat.jpg" primaryText="Sail Boat"/>
             <MenuItem value="boat.png" primaryText="Boat"/>
+            <MenuItem value="room.jpg" primaryText="Room"/>
             <MenuItem value="elephant.jpg" primaryText="Elephant"/>
             <MenuItem value="crowd.jpg" primaryText="Crowd"/>
             <MenuItem value="ski.jpg" primaryText="Ski Lift"/>
             <MenuItem value="ride.jpg" primaryText="Attraction Park"/>
             <MenuItem value="jazz.jpg" primaryText="Jazz Stage"/>
+            <MenuItem value="desk.jpg" primaryText="Desk"/>
+            <MenuItem value="snow_park.jpg" primaryText="Snowy Park"/>
+            <MenuItem value="beach.jpg" primaryText="Beach"/>
+            <MenuItem value="classic_car.jpg" primaryText="Classic Car"/>
+            <MenuItem value="port.jpg" primaryText="Port"/>
           </SelectField>
         </div>
         <div id="brush-container">

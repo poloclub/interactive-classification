@@ -138,7 +138,7 @@ export function createCompRows(top, originalTop) {
             plus = '+';
         }
 
-        rows.push(<TableRow key={pair[0]} selected={false}>
+        rows.push(<TableRow key={pair[0]}>
             <TableRowColumn style={{wordWrap: 'break-word', whiteSpace: 'normal'}}>{pair[0]}</TableRowColumn>
             <TableRowColumn style={{textAlign: 'right'}}>{pair[1]}</TableRowColumn>
             <TableRowColumn style={{textAlign: 'right', color: color}}>{plus}{change.toFixed(2)}</TableRowColumn>

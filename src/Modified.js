@@ -15,7 +15,6 @@ class Modified extends Component {
             clickX: [],
             clickY: [],
             order: 0,
-            cam: [-1]
         };
     }
 
@@ -84,7 +83,7 @@ class Modified extends Component {
             this.setState({
                 results: rows,
                 activation: activation
-            }, () => {if (this.state.cam[0] !== -1) this.drawCAM(null)});
+            });
         }.bind(this));
     }
 
@@ -97,59 +96,43 @@ class Modified extends Component {
     }
 
     drawCAM = (e) => {
-        if (e == null || e[0] !== this.state.cam[0]) {
-            if (e == null) {
-                e = this.state.cam;
-            }
+        if (e.length !== 0) {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
             drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
-            this.setState({
-                cam: e
-            })
         } else {
             const ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
-            this.setState({
-                cam: [-1]
-            })
         }
     }
 
     orderChanged = (e, row, column) => {
-        console.log(e.target);
-        if (this.state.order) {
-            e.target.innerHTML = 'Confidence %';
-        } else {
-            e.target.innerHTML = '↓ Confidence %';
-        }
         if (column === 2) {
-            this.changeOrder(!this.state.order);
-            this.setState({
-                order: !this.state.order
-            })
+            if (this.state.order) {
+                e.target.innerHTML = 'Confidence %';
+            } else {
+                e.target.innerHTML = '↓ Confidence %';
+            }
+                this.changeOrder(!this.state.order);
+                this.setState({
+                    order: !this.state.order
+                });
         }
     }
 
     changeOrder = (val) => {
+        let classes = null;
         if (!val) {
-            predict(this.cImg, this.props.net, Array.from(this.props.topK.keys()), function(top, activation) {
-                let rows = createCompRows(top, this.props.topK);
-                this.setState({
-                    results: rows,
-                    activation: activation
-                });
-            }.bind(this));
-        } else {
-            predict(this.cImg, this.props.net, null, function(top, activation) {
-                let rows = createCompRows(top, this.props.topK);
-                this.setState({
-                    results: rows,
-                    activation: activation
-                });
-            }.bind(this));
+            classes = Array.from(this.props.topK.keys());
         }
+        predict(this.cImg, this.props.net, classes, function(top, activation) {
+            let rows = createCompRows(top, this.props.topK);
+            this.setState({
+                results: rows,
+                activation: activation
+            });
+        }.bind(this));
     }
 
     componentDidMount() {
@@ -191,7 +174,7 @@ class Modified extends Component {
                 this.setState({
                     results: rows,
                     activation: activation
-                }, () => {if (this.state.cam[0] !== -1) this.drawCAM(null)});
+                });
             }.bind(this));
         }
         this.props = nProps;
