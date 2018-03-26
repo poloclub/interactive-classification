@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 
 import * as dl from 'deeplearn';
-import {SqueezeNet} from './squeezenet/squeezenet.js';
+import {SqueezeNet} from './squeezenet/squeezenet.js'; // comment out
+import {MobileNet} from './mobilenet/mobilenet.js';
 import {MuiThemeProvider, Toolbar, ToolbarTitle} from 'material-ui';
-import {indigo800, red800} from 'material-ui/styles/colors';
+import {tealA700, red800} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Options from './Options.js';
@@ -12,9 +13,18 @@ import Original from './Original.js';
 
 import './App.css';
 
+var CnnEnum = { 
+  SQUEEZE: 1,
+  MOBILE: 2,
+  VGG: 3
+};
+Object.freeze(CnnEnum);
+// var model = CnnEnum.SQUEEZE;
+var model = CnnEnum.MOBILE;
+
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: indigo800,
+    primary1Color: tealA700,
     accent1Color: red800
   },
 });
@@ -24,7 +34,7 @@ class App extends Component {
     super(props);
     
     this.state = {
-      netStatus: 'Loading SqueezeNet',
+      netStatus: 'Loading MobileNet',
       image: 'lighthouse.jpg',
       topK: new Map(),
       brushSize: 15,
@@ -34,7 +44,11 @@ class App extends Component {
     };
 
     this.math = dl.ENV.math;
-    this.net = new SqueezeNet(this.math);
+    if (model == CnnEnum.SQUEEZE) {
+      this.net = new SqueezeNet(this.math);
+    } else if (model == CnnEnum.MOBILE) {
+        this.net = new MobileNet(this.math);
+    }
     this.net.load().then(() => {
       this.setState({
         netStatus: 'Loaded'
@@ -92,7 +106,7 @@ class App extends Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <div id="mui-container">
             <Toolbar id="header" style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}>
-              <ToolbarTitle text="Interactive Classification" />
+              <ToolbarTitle text="Deep Inpainterpretation" />
             </Toolbar>
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 

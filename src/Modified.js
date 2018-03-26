@@ -100,6 +100,7 @@ class Modified extends Component {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
+            console.log(this.state.activation);
             drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
         } else {
             const ctx = this.cCam.getContext('2d');

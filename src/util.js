@@ -6,6 +6,15 @@ import {scaleSequential} from 'd3-scale';
 import {rgb} from 'd3-color';
 import {interpolateInferno} from 'd3-scale-chromatic'
 
+var CnnEnum = { 
+  SQUEEZE: 1,
+  MOBILE: 2,
+  VGG: 3
+};
+Object.freeze(CnnEnum);
+// var model = CnnEnum.SQUEEZE;
+var model = CnnEnum.MOBILE;
+
 const SCALE = scaleSequential(interpolateInferno).domain([0,1]);
 
 export function drawImage(ctx, src, callback) {
@@ -48,13 +57,16 @@ export function predict(img, net, classes, callback) {
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = net.predictWithActivation(resized, 'fire9');
+    const resAll = (model==CnnEnum.SQUEEZE)?net.predictWithActivation(resized, 'fire9'):net.predict(resized);
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
-    const res = resAll.logits;
+    // const res = resAll.logits;
+    const res = (model==CnnEnum.SQUEEZE)?resAll.logits:resAll;
+    console.log(resAll);
     
     const map = new Map();
     if (classes == null) {
+        console.log("classes == null");
         net.getTopKClasses(res, 1000).then((topK) => {
             for (let key in topK) {
                 map.set(key, (topK[key]*100.0).toFixed(2));
@@ -62,6 +74,7 @@ export function predict(img, net, classes, callback) {
             callback(map, resAll.activation);
         });
     } else {
+        console.log("classes != null");
         net.getTopKClasses(res, 1000).then((topK) => {
             for (let i = 0; i < 5; i++) {
                 map.set(classes[i], (topK[classes[i]]*100.0).toFixed(2));

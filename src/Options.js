@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Button } from 'react';
 import {RaisedButton, Slider, SelectField, MenuItem} from 'material-ui';
 import './App.css';
 
@@ -37,6 +37,12 @@ class Options extends Component {
               </svg>
             </div>
           </div>
+        </div>
+        <div id="select-container">
+          <RaisedButton label="SqueezeNet" secondary={true} />
+        </div>
+        <div id="select-container">
+          <RaisedButton label="MobileNet" secondary={true} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>

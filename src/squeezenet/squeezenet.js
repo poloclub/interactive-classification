@@ -151,12 +151,15 @@ var SqueezeNet = (function () {
             return __generator(this, function (_c) {
                 switch (_c.label) {
                     case 0:
+                        console.log(_c.label);
                         predictions = dl.tidy(function () {
                             return dl.softmax(logits).asType('float32');
                         });
                         _b = (_a = model_util).topK;
                         return [4, predictions.data()];
                     case 1:
+                        console.log(_c.label);
+                        console.log(_b);
                         topk = _b.apply(_a, [_c.sent(), topK]);
                         predictions.dispose();
                         topkIndices = topk.indices;
