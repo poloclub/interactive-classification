@@ -80,13 +80,15 @@ var MobileNet = (function () {
             var x12 = _this.depthwiseConvBlock(x11, 1, 11);
             var x13 = _this.depthwiseConvBlock(x12, 2, 12);
             var x14 = _this.depthwiseConvBlock(x13, 1, 13);
+            activation = x14;
             var x15 = x14.avgPool(7, 2, 'valid');
-            activation = x15;
+            // activation = x15;
             var x16Filter = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/weights'];
             var x16Bias = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/biases'];
             var x16 = x15.conv2d(x16Filter, 1, 'same').add(x16Bias);
+            // activation = x15;
             return {
-                logits: x14.as1D(),
+                logits: x16.as1D(),
                 activation: activation
             };
         });
@@ -160,19 +162,19 @@ var MobileNet = (function () {
         });
     };
     // For CAM functionality
-    // MobileNet.prototype.getLastWeights = function () {
-    //     return dl.squeeze(this.variables['x14_W:0']);
-    // };
-    // MobileNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
-    //     var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
-    //     var lastAct = dl.transpose(lastActivation.reshape([169, 512]));
-    //     var cam = dl.matMul(softMaxW, lastAct);
-    //     cam = cam.reshape([13, 13]);
-    //     cam = cam.sub(dl.min(cam));
-    //     cam = cam.div(dl.max(cam));
-    //     cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
-    //     return cam;
-    // };
+    MobileNet.prototype.getLastWeights = function () {
+        return dl.squeeze(this.variables['MobilenetV1/Conv2d_13_pointwise/weights']);
+    };
+    MobileNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
+        var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
+        var lastAct = dl.transpose(lastActivation.reshape([64, 1024]));
+        var cam = dl.matMul(softMaxW, lastAct);
+        cam = cam.reshape([8, 8]);
+        cam = cam.sub(dl.min(cam));
+        cam = cam.div(dl.max(cam));
+        cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
+        return cam;
+    };
 
     MobileNet.prototype.dispose = function () {
         for (var varName in this.variables) {

@@ -193,6 +193,7 @@ var SqueezeNet = (function () {
         });
     };
     SqueezeNet.prototype.getLastWeights = function () {
+        console.log(this.variables);
         return dl.squeeze(this.variables['conv10_W:0']);
     };
     SqueezeNet.prototype.dispose = function () {

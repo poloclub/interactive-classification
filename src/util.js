@@ -57,11 +57,11 @@ export function predict(img, net, classes, callback) {
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = (model==CnnEnum.SQUEEZE)?net.predictWithActivation(resized, 'fire9'):net.predict(resized);
+    const resAll = (model==CnnEnum.SQUEEZE)?net.predictWithActivation(resized, 'fire9'):net.predictWithActivation(resized);
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
     // const res = resAll.logits;
-    const res = (model==CnnEnum.SQUEEZE)?resAll.logits:resAll;
+    const res = (model==CnnEnum.SQUEEZE)?resAll.logits:resAll.logits;
     console.log(resAll);
     
     const map = new Map();
