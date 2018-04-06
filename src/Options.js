@@ -3,6 +3,11 @@ import {RaisedButton, Slider, SelectField, MenuItem} from 'material-ui';
 import './App.css';
 
 class Options extends Component {
+  // TODO: refactor model selection: Passing button id to Event Handlers
+  // selectModel(e) {
+  //   console.log(e.target.id)
+  //   this.props.reload(e.target.id);
+  // }
   render() {
     return (
       <div className="box" id="options">
@@ -39,10 +44,9 @@ class Options extends Component {
           </div>
         </div>
         <div id="select-container">
-          <RaisedButton label="SqueezeNet" secondary={true} />
-        </div>
-        <div id="select-container">
-          <RaisedButton label="MobileNet" secondary={true} />
+          <RaisedButton className="modelButton" label="SqueezeNet" secondary={true} onClick={this.props.reloadSQ}/>
+          <br />
+          <RaisedButton className="modelButton" label="MobileNet" secondary={true} onClick={this.props.reloadMB}/>
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
 import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
-import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
+
+const canvasStyle = {
+  height: 227,
+  width: 227,
+  margin: 10,
+  textAlign: 'center',
+  display: 'inline-block',
+};
 
 class Modified extends Component {
     constructor(props) {
@@ -151,14 +159,22 @@ class Modified extends Component {
 
     componentWillReceiveProps(nProps) {
         let classes = null;
+        console.log("enters componentWillReceiveProps");
+        console.log(nProps.net.load());
         if (!this.state.order) {
             classes = Array.from(this.props.topK.keys());
         }
+        // if (nProps.reload) {
+        //     console.log("MODEL RELOADED IN WILLRECEIVEPROPS");
+        // }
         if (nProps.reset || nProps.image !== this.props.image) {
+            console.log("test instant reset");
             let ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
             ctx = this.cImg.getContext('2d');
             drawImage(ctx, nProps.image, function(img) {
+                console.log("loaded nProps.net.load within componentWillReceiveProps");
+                console.log(nProps.net.load());
                 predict(img, nProps.net, null, function(top, activation) {
                     let rows = createCompRows(top, null);
                     this.setState({
@@ -184,15 +200,17 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
-                <canvas id="modified-canvas" height="227px" width="227px" 
-                        ref={cImg => this.cImg = cImg}> 
-                </canvas>
-                <canvas id="modified-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
-                <canvas id="draw-canvas" height="227px" width="227px" 
-                        ref={cDraw => this.cDraw = cDraw} onMouseDown={this.mouseDown}
-                        onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
-                        onMouseLeave={this.mouseLeave}>
-                </canvas>
+                <Paper style={canvasStyle} zDepth={3}>
+                    <canvas id="modified-canvas" height="227px" width="227px" 
+                            ref={cImg => this.cImg = cImg}> 
+                    </canvas>
+                    <canvas id="modified-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+                    <canvas id="draw-canvas" height="227px" width="227px" 
+                            ref={cDraw => this.cDraw = cDraw} onMouseDown={this.mouseDown}
+                            onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
+                            onMouseLeave={this.mouseLeave}>
+                    </canvas>
+                </Paper>
                 <h3>Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
