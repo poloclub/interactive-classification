@@ -204,7 +204,9 @@ class Modified extends Component {
                     <canvas id="modified-canvas" height="227px" width="227px" 
                             ref={cImg => this.cImg = cImg}> 
                     </canvas>
-                    <canvas id="modified-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+                    <canvas id="modified-cam" height="227px" width="227px" 
+                            ref={c => this.cCam = c}>
+                    </canvas>
                     <canvas id="draw-canvas" height="227px" width="227px" 
                             ref={cDraw => this.cDraw = cDraw} onMouseDown={this.mouseDown}
                             onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}

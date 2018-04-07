@@ -35,14 +35,15 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var dl = require("deeplearn");
+// var tf = require("@tensorflow/tfjs");
+var tf = require("deeplearn");
 var model_util = require("./util");
 var imagenet_classes_1 = require("./imagenet_classes");
 var GOOGLE_CLOUD_STORAGE_DIR = 'https://storage.googleapis.com/learnjs-data/checkpoint_zoo/';
 var MobileNet = (function () {
     function MobileNet() {
-        this.PREPROCESS_DIVISOR = dl.scalar(255.0 / 2);
-        this.ONE = dl.scalar(1);
+        this.PREPROCESS_DIVISOR = tf.scalar(255.0 / 2);
+        this.ONE = tf.scalar(1);
     }
     MobileNet.prototype.load = function () {
         return __awaiter(this, void 0, void 0, function () {
@@ -50,7 +51,7 @@ var MobileNet = (function () {
             return __generator(this, function (_b) {
                 switch (_b.label) {
                     case 0:
-                        checkpointLoader = new dl.CheckpointLoader(GOOGLE_CLOUD_STORAGE_DIR + 'mobilenet_v1_1.0_224/');
+                        checkpointLoader = new tf.CheckpointLoader(GOOGLE_CLOUD_STORAGE_DIR + 'mobilenet_v1_1.0_224/');
                         _a = this;
                         return [4, checkpointLoader.getAllVariables()];
                     case 1:
@@ -63,9 +64,12 @@ var MobileNet = (function () {
 
     MobileNet.prototype.predictWithActivation = function (input, activationName) {
         var _this = this;
-        return dl.tidy(function () {
+        console.log(input);
+        return tf.tidy(function () {
             var activation; 
             var preprocessedInput = input.div(_this.PREPROCESS_DIVISOR).sub(_this.ONE);
+            console.log("in predictWithActivation");
+            console.log(preprocessedInput);
             var x1 = _this.convBlock(preprocessedInput, 2);
             var x2 = _this.depthwiseConvBlock(x1, 1, 1);
             var x3 = _this.depthwiseConvBlock(x2, 2, 2);
@@ -96,7 +100,7 @@ var MobileNet = (function () {
 
     MobileNet.prototype.predict = function (input) {
         var _this = this;
-        return dl.tidy(function () {
+        return tf.tidy(function () {
             var preprocessedInput = input.div(_this.PREPROCESS_DIVISOR).sub(_this.ONE);
             var x1 = _this.convBlock(preprocessedInput, 2);
             var x2 = _this.depthwiseConvBlock(x1, 1, 1);
@@ -121,6 +125,8 @@ var MobileNet = (function () {
     };
     MobileNet.prototype.convBlock = function (inputs, stride) {
         var convPadding = 'MobilenetV1/Conv2d_0';
+        console.log("in convBlock");
+        console.log(this.variables);
         var x1 = inputs.conv2d(this.variables[convPadding + '/weights'], stride, 'same');
         var x2 = x1.batchNormalization(this.variables[convPadding + '/BatchNorm/moving_mean'], this.variables[convPadding + '/BatchNorm/moving_variance'], .001, this.variables[convPadding + '/BatchNorm/gamma'], this.variables[convPadding + '/BatchNorm/beta']);
         var res = x2.clipByValue(0, 6);
@@ -163,16 +169,16 @@ var MobileNet = (function () {
     };
     // For CAM functionality
     MobileNet.prototype.getLastWeights = function () {
-        return dl.squeeze(this.variables['MobilenetV1/Conv2d_13_pointwise/weights']);
+        return tf.squeeze(this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/weights']);
     };
     MobileNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
-        var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
-        var lastAct = dl.transpose(lastActivation.reshape([64, 1024]));
-        var cam = dl.matMul(softMaxW, lastAct);
+        var softMaxW = tf.transpose(softmaxWeights).gather(tf.tensor1d([classX]));
+        var lastAct = tf.transpose(lastActivation.reshape([64, 1024]));
+        var cam = tf.matMul(softMaxW, lastAct);
         cam = cam.reshape([8, 8]);
-        cam = cam.sub(dl.min(cam));
-        cam = cam.div(dl.max(cam));
-        cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
+        cam = cam.sub(tf.min(cam));
+        cam = cam.div(tf.max(cam));
+        cam = tf.squeeze(tf.image.resizeBilinear(cam.expandDims(2), [227, 227]));
         return cam;
     };
 
