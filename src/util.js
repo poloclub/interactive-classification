@@ -1,19 +1,14 @@
 import React from 'react';
+// import * as tf from '@tensorflow/tfjs';
 import * as dl from 'deeplearn';
 import {InpaintTelea} from './inpaint';
 import {TableRow, TableRowColumn} from 'material-ui';
 import {scaleSequential} from 'd3-scale';
 import {rgb} from 'd3-color';
 import {interpolateInferno} from 'd3-scale-chromatic'
+import * as model from './model.js';
 
-var CnnEnum = { 
-  SQUEEZE: 1,
-  MOBILE: 2,
-  VGG: 3
-};
-Object.freeze(CnnEnum);
-// var model = CnnEnum.SQUEEZE;
-var model = CnnEnum.MOBILE;
+var netName = model.netEnum.MOBILE;
 
 const SCALE = scaleSequential(interpolateInferno).domain([0,1]);
 
@@ -24,6 +19,7 @@ export function drawImage(ctx, src, callback) {
     img.onload = function () {
         ctx.clearRect(0, 0, 227, 227);
         ctx.drawImage(img, 0, 0);
+        console.log("about to call img.onload callback in util.js");
         callback(img);
     }
 }
@@ -49,6 +45,8 @@ export function drawCAM(img, net, activation, canvas, id) {
     const ctx = canvas.getContext('2d');
     let iData = ctx.createImageData(227, 227);
     iData.data.set(buff);
+    console.log("in drawCAM");
+    console.log(iData);
     ctx.putImageData(iData, 0, 0);
 }
 
@@ -57,11 +55,11 @@ export function predict(img, net, classes, callback) {
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = (model==CnnEnum.SQUEEZE)?net.predictWithActivation(resized, 'fire9'):net.predictWithActivation(resized);
+    const resAll = (netName==model.netEnum.SQUEEZE)?net.predictWithActivation(resized, 'fire9'):net.predictWithActivation(resized);
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
     // const res = resAll.logits;
-    const res = (model==CnnEnum.SQUEEZE)?resAll.logits:resAll.logits;
+    const res = (netName==model.netEnum.SQUEEZE)?resAll.logits:resAll.logits;
     console.log(resAll);
     
     const map = new Map();

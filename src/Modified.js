@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
+import {inpaint, 
+    predict, drawImage, createCompRows, drawCAM} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
