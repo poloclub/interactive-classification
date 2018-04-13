@@ -11,6 +11,10 @@ class Options extends Component {
           <SelectField onChange={this.props.imageChanged} value={this.props.image} fullWidth={true}>
             <MenuItem value="lighthouse.jpg" primaryText="Lighthouse"/>
             <MenuItem value="sailboat.jpg" primaryText="Sail Boat"/>
+            <MenuItem value="soccer.jpg" primaryText="Soccer"/>
+            <MenuItem value="baseball.jpg" primaryText="Baseball"/>
+            <MenuItem value="nadal.jpg" primaryText="Nadal"/>
+            <MenuItem value="tennis.jpg" primaryText="Tennis"/>
             <MenuItem value="boat.png" primaryText="Boat"/>
             <MenuItem value="room.jpg" primaryText="Room"/>
             <MenuItem value="elephant.jpg" primaryText="Elephant"/>

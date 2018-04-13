@@ -71,7 +71,7 @@ export function predict(img, net, classes, callback) {
     }
 }
 
-export function inpaint(iCtx, dCtx, ) {
+export async function inpaint(iCtx, dCtx) {
     const mask = dCtx.getImageData(0, 0, 227, 227);
     const img = iCtx.getImageData(0, 0, 227, 227);
 
@@ -84,22 +84,43 @@ export function inpaint(iCtx, dCtx, ) {
         }
     }
 
-    for(let channel = 0; channel < 3; channel++){
-        const img_u8 = new Uint8Array(227*227)
-        for(let n = 0; n < img.data.length; n+=4){
-            img_u8[n / 4] = img.data[n + channel]
+    // Try to call resynthesizer, if not use Telea
+    return fetch('http://127.0.0.1:5000/inpaint', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Accept': 'application/json',
+        },
+        body: JSON.stringify({
+            "image": Array.from(img.data),
+            "mask": Array.from(mask_u8)
+        })
+    }).then(res => res.json())
+    .then(res => {
+        const changedImg = new ImageData(Uint8ClampedArray.from(res), 227, 227);
+        dCtx.clearRect(0, 0, 227, 227);
+        iCtx.putImageData(changedImg, 0, 0);
+        return changedImg;
+    })
+    .catch(err => {
+        console.log("ERROR:", err, "using Telea");
+        for(let channel = 0; channel < 3; channel++){
+            const img_u8 = new Uint8Array(227*227)
+            for(let n = 0; n < img.data.length; n+=4){
+                img_u8[n / 4] = img.data[n + channel]
+            }
+            InpaintTelea(227, 227, img_u8, mask_u8)
+            for(let i = 0; i < img_u8.length; i++){
+                img.data[4 * i + channel] = img_u8[i]
+            }	
         }
-        InpaintTelea(227, 227, img_u8, mask_u8)
-        for(let i = 0; i < img_u8.length; i++){
-            img.data[4 * i + channel] = img_u8[i]
-        }	
-    }
-    for(let i = 0; i < mask_u8.length; i++){
-        img.data[4 * i + 3] = 255;
-    }
-    dCtx.clearRect(0, 0, 227, 227);
-    iCtx.putImageData(img, 0, 0);
-    return img;
+        for(let i = 0; i < mask_u8.length; i++){
+            img.data[4 * i + 3] = 255;
+        }
+        dCtx.clearRect(0, 0, 227, 227);
+        iCtx.putImageData(img, 0, 0);
+        return img;
+    });
 }
 
 

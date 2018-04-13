@@ -72,19 +72,20 @@ class Modified extends Component {
             mouseDown: false
         }) 
 
-        const img = inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'));
-
-        let classes = null;
-        if (!this.state.order) {
-            classes = Array.from(this.props.topK.keys());
-        }
-        predict(img, this.props.net, classes, function(top, activation) {
-            const rows = createCompRows(top, this.props.topK);
-            this.setState({
-                results: rows,
-                activation: activation
-            });
-        }.bind(this));
+        inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'))
+        .then(img => {
+            let classes = null;
+            if (!this.state.order) {
+                classes = Array.from(this.props.topK.keys());
+            }
+            predict(img, this.props.net, classes, function(top, activation) {
+                const rows = createCompRows(top, this.props.topK);
+                this.setState({
+                    results: rows,
+                    activation: activation
+                });
+            }.bind(this));
+         });
     }
 
     mouseLeave = () => {
