@@ -2,6 +2,7 @@
   "name": "deepvis",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://cabreraalex.com/interactive-classification",
   "dependencies": {
     "d3-color": "^1.0.3",
     "d3-scale": "^2.0.0",
