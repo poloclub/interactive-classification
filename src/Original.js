@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import drawImage, {predict, createRows, drawCAM} from './util.js';
-import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import './App.css';
 
@@ -54,8 +54,10 @@ class Original extends Component {
     render() {
       return (
           <div className="box" id="original">
-              <canvas id="original-canvas" height="227px" width="227px" ref={c => this.cImg = c}></canvas>
-              <canvas id="original-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+              <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
+                <canvas id="original-canvas" height="227px" width="227px" ref={c => this.cImg = c}></canvas>
+                <canvas id="original-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+              </Paper>
               <h3>Original Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>

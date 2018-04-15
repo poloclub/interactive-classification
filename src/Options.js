@@ -14,19 +14,14 @@ class Options extends Component {
             <MenuItem value="soccer.jpg" primaryText="Soccer"/>
             <MenuItem value="baseball.jpg" primaryText="Baseball"/>
             <MenuItem value="nadal.jpg" primaryText="Nadal"/>
-            <MenuItem value="tennis.jpg" primaryText="Tennis"/>
             <MenuItem value="boat.png" primaryText="Boat"/>
-            <MenuItem value="room.jpg" primaryText="Room"/>
             <MenuItem value="elephant.jpg" primaryText="Elephant"/>
             <MenuItem value="crowd.jpg" primaryText="Crowd"/>
             <MenuItem value="ski.jpg" primaryText="Ski Lift"/>
             <MenuItem value="ride.jpg" primaryText="Attraction Park"/>
             <MenuItem value="jazz.jpg" primaryText="Jazz Stage"/>
             <MenuItem value="desk.jpg" primaryText="Desk"/>
-            <MenuItem value="snow_park.jpg" primaryText="Snowy Park"/>
             <MenuItem value="beach.jpg" primaryText="Beach"/>
-            <MenuItem value="classic_car.jpg" primaryText="Classic Car"/>
-            <MenuItem value="port.jpg" primaryText="Port"/>
           </SelectField>
         </div>
         <div id="brush-container">

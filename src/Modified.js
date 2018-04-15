@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
-import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow} from 'material-ui';
+import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
 import './App.css';
@@ -184,6 +184,7 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
+              <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
                 <canvas id="modified-canvas" height="227px" width="227px" 
                         ref={cImg => this.cImg = cImg}> 
                 </canvas>
@@ -193,6 +194,7 @@ class Modified extends Component {
                         onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
+              </Paper>
                 <h3>Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
