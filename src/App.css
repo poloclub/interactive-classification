@@ -7,6 +7,11 @@ body {
   height: 100%;
 }
 
+a {
+  text-decoration: none;
+  color: white;
+}
+
 #root {
   height: 100%;
 }
@@ -56,6 +61,7 @@ body {
   background-color: rgb(250, 250, 250);
   min-width: 275px;
   height: 100%;
+  position: relative;
 }
 
 #select-container {
@@ -147,4 +153,12 @@ h3 {
 .right {
   text-align: right;
   margin: auto;
+}
+
+#tutorial-container {
+  position: absolute;
+  bottom: 24px;
+  padding-left: 24px;
+  padding-right: 200px;
+  width: 225px;
 }

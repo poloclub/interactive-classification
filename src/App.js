@@ -92,7 +92,7 @@ class App extends Component {
         <MuiThemeProvider muiTheme={muiTheme}>
           <div id="mui-container">
             <Toolbar id="header" style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}>
-              <ToolbarTitle text="Interactive Classification" />
+              <a href="/"><ToolbarTitle text="Interactive Classification" /></a>
             </Toolbar>
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
