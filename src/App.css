@@ -153,6 +153,7 @@ h3 {
 
 .modelButton {
   margin-bottom: 10px;
+  display: inline;
 }
 
 .cardStyle {

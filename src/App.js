@@ -124,7 +124,7 @@ class App extends Component {
             <AppBar id="header" title="&nbsp;Interactive Classification" iconElementLeft={<div></div>} style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}></AppBar>
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
-                      blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile}/>
+                      blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} /> 
               <Card className="cardStyle">
                 <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
                         reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
@@ -138,7 +138,7 @@ class App extends Component {
       );
     } else {
       return (
-        <h3 style={{marginLeft: "20px"}}>Loading model...</h3>
+        <h3 style={{marginLeft: "20px"}}>Loading classification model...</h3>
       );
     }
   }

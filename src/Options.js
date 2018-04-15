@@ -1,13 +1,24 @@
 import React, { Component, Button } from 'react';
-import {RaisedButton, Slider, SelectField, MenuItem} from 'material-ui';
+import {RaisedButton, Slider, SelectField, MenuItem, TextField} from 'material-ui';
 import './App.css';
 
 class Options extends Component {
-  // TODO: refactor model selection: Passing button id to Event Handlers
-  // selectModel(e) {
-  //   console.log(e.target.id)
-  //   this.props.reload(e.target.id);
-  // }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      mLabel: props.net.constructor.name
+    }
+  }
+
+  componentWillReceiveProps(nProps) {
+        console.log("nProps (options)", nProps);
+       
+        if (nProps.reset) {
+          this.setState({mLabel: nProps.net.constructor.name});
+        }
+  }
+
   render() {
     return (
       <div className="box" id="options">
@@ -47,6 +58,7 @@ class Options extends Component {
           <RaisedButton className="modelButton" label="SqueezeNet" secondary={true} onClick={this.props.reloadSQ}/>
           <br />
           <RaisedButton className="modelButton" label="MobileNet" secondary={true} onClick={this.props.reloadMB}/>
+          <h4>Current model: </h4> <TextField id="modelLabel" style={{display: "inline"}} value={this.state.mLabel} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>
