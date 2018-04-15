@@ -100,7 +100,7 @@ int main() {
   unsigned char mask[51529];
 
   // Read RGB array of base image
-  FILE *fp = fopen(".imgbytes", "r");
+  FILE *fp = fopen("/tmp/imgbytes", "r");
   char buff[3];
   for (int i = 0; i < 206116; i++) {
     fscanf(fp, "%s", buff);
@@ -109,7 +109,7 @@ int main() {
   fclose(fp);
 
   // Read 1/0 array of mask
-  fp = fopen(".maskbytes", "r");
+  fp = fopen("/tmp/maskbytes", "r");
   for (int i = 0; i < 51529; i++) {
     fscanf(fp, "%s", buff);
     mask[i] = atoi(buff);
@@ -134,7 +134,7 @@ int main() {
 	int err = imageSynth(imgBuff, maskBuff, T_RGBA, NULL, progCallback, NULL, &status);
 
   // Write modified RGBA array to same file
-  fp = fopen(".imgbytes", "w+");
+  fp = fopen("/tmp/imgbytes", "w+");
   for (int i = 0; i < 206116; i++) {
     sprintf(buff, "%u", img[i]);
     fputs(buff, fp);
