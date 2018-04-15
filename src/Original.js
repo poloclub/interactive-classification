@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import drawImage, {predict, createRows, drawCAM} from './util.js';
+import drawImage, {predict, createCompRows, createRows, drawCAM} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import './App.css';
@@ -55,8 +55,13 @@ class Original extends Component {
     }
 
     componentWillReceiveProps(nProps) {
+        console.log("nProps (original)", nProps);
+       
         if (this.props.image !== nProps.image) {
             this.drawAndUpdate(nProps.image);
+        }
+        if (nProps.reset) {
+          this.drawAndUpdate(this.props.image);
         }
         this.props = nProps;
     }

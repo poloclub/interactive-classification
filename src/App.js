@@ -19,15 +19,6 @@ const MOBILENET_MODEL_PATH =
     // tslint:disable-next-line:max-line-length
     'https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_0.25_224/model.json';
 
-var netEnum = { 
-  SQUEEZE: 1,
-  MOBILE: 2,
-  VGG: 3
-};
-Object.freeze(netEnum);
-// var model = CnnEnum.SQUEEZE;
-var netName = netEnum.MOBILE;
-
 class App extends Component {
   constructor(props) {
     super(props);
@@ -40,7 +31,7 @@ class App extends Component {
     });
     
     this.state = {
-      netStatus: 'Loading model...',
+      netStatus: 'Loading classification model...',
       image: 'lighthouse.jpg',
       topK: new Map(),
       brushSize: 15,
@@ -49,6 +40,8 @@ class App extends Component {
       reset: 0,
     };
 
+    // Set your ConvNet model here: model.netEnum.MOBILE or model.netEnum.SQUEEZE
+    var netName = model.netEnum.MOBILE;
     this.net = model.getModel(netName);
     this.net.load().then(() => {
       this.setState({
@@ -82,6 +75,7 @@ class App extends Component {
   }
   
   reset = (e) => {
+    console.log("reset in App.js called");
     this.setState({
       reset: 1
     }, function() {
@@ -136,7 +130,7 @@ class App extends Component {
                         reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
               </Card>
               <Card className="cardStyle">
-                <Original image={this.state.image} net={this.net} updateKeys={this.updateTop} />
+                <Original image={this.state.image} net={this.net} reset={this.state.reset} updateKeys={this.updateTop} />
               </Card>
             </div>
           </div>

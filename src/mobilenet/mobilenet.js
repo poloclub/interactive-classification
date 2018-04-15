@@ -84,13 +84,11 @@ var MobileNet = (function () {
             var x12 = _this.depthwiseConvBlock(x11, 1, 11);
             var x13 = _this.depthwiseConvBlock(x12, 2, 12);
             var x14 = _this.depthwiseConvBlock(x13, 1, 13);
-            activation = x14;
+            activation = x14;   // activation at last conv layer for CAM
             var x15 = x14.avgPool(7, 2, 'valid');
-            // activation = x15;
             var x16Filter = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/weights'];
             var x16Bias = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/biases'];
             var x16 = x15.conv2d(x16Filter, 1, 'same').add(x16Bias);
-            // activation = x15;
             return {
                 logits: x16.as1D(),
                 activation: activation
@@ -101,6 +99,7 @@ var MobileNet = (function () {
     MobileNet.prototype.predict = function (input) {
         var _this = this;
         return tf.tidy(function () {
+            var activation;
             var preprocessedInput = input.div(_this.PREPROCESS_DIVISOR).sub(_this.ONE);
             var x1 = _this.convBlock(preprocessedInput, 2);
             var x2 = _this.depthwiseConvBlock(x1, 1, 1);
@@ -116,11 +115,16 @@ var MobileNet = (function () {
             var x12 = _this.depthwiseConvBlock(x11, 1, 11);
             var x13 = _this.depthwiseConvBlock(x12, 2, 12);
             var x14 = _this.depthwiseConvBlock(x13, 1, 13);
+            activation = x14;
             var x15 = x14.avgPool(7, 2, 'valid');
             var x16Filter = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/weights'];
             var x16Bias = _this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/biases'];
             var x16 = x15.conv2d(x16Filter, 1, 'same').add(x16Bias);
-            return x16.as1D();
+            // return x16.as1D();
+            return {
+                logits: x16.as1D(),
+                activation: activation
+            };
         });
     };
     MobileNet.prototype.convBlock = function (inputs, stride) {
@@ -170,16 +174,6 @@ var MobileNet = (function () {
     // For CAM functionality
     MobileNet.prototype.getLastWeights = function () {
         return tf.squeeze(this.variables['MobilenetV1/Logits/Conv2d_1c_1x1/weights']);
-    };
-    MobileNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
-        var softMaxW = tf.transpose(softmaxWeights).gather(tf.tensor1d([classX]));
-        var lastAct = tf.transpose(lastActivation.reshape([64, 1024]));
-        var cam = tf.matMul(softMaxW, lastAct);
-        cam = cam.reshape([8, 8]);
-        cam = cam.sub(tf.min(cam));
-        cam = cam.div(tf.max(cam));
-        cam = tf.squeeze(tf.image.resizeBilinear(cam.expandDims(2), [227, 227]));
-        return cam;
     };
 
     MobileNet.prototype.dispose = function () {

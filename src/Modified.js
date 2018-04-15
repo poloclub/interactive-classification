@@ -14,7 +14,7 @@ const canvasStyle = {
   display: 'inline-block',
 };
 
-class Modified extends Component {
+export class Modified extends Component {
     constructor(props) {
         super(props);
 
@@ -160,14 +160,12 @@ class Modified extends Component {
 
     componentWillReceiveProps(nProps) {
         let classes = null;
-        console.log("enters componentWillReceiveProps");
+        console.log("nProps (modified)", nProps);
         console.log(nProps.net.load());
         if (!this.state.order) {
             classes = Array.from(this.props.topK.keys());
         }
-        // if (nProps.reload) {
-        //     console.log("MODEL RELOADED IN WILLRECEIVEPROPS");
-        // }
+
         if (nProps.reset || nProps.image !== this.props.image) {
             console.log("test instant reset");
             let ctx = this.cCam.getContext('2d');
@@ -176,6 +174,7 @@ class Modified extends Component {
             drawImage(ctx, nProps.image, function(img) {
                 console.log("loaded nProps.net.load within componentWillReceiveProps");
                 console.log(nProps.net.load());
+                // export function predict(img, net, classes, callback) 
                 predict(img, nProps.net, null, function(top, activation) {
                     let rows = createCompRows(top, null);
                     this.setState({
