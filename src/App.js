@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import * as dl from 'deeplearn';
 import {SqueezeNet} from './squeezenet/squeezenet.js';
 import {MuiThemeProvider, Toolbar, ToolbarTitle} from 'material-ui';
-import {indigo800, red800} from 'material-ui/styles/colors';
+import {indigo500, red800} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Options from './Options.js';
@@ -14,7 +14,7 @@ import './App.css';
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: indigo800,
+    primary1Color: indigo500,
     accent1Color: red800
   },
 });
@@ -91,7 +91,7 @@ class App extends Component {
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
           <div id="mui-container">
-            <Toolbar id="header" style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}>
+            <Toolbar id="header" style={{backgroundColor: "rgba(63, 81, 181,1.0)", color: "white"}}>
               <a href="/"><ToolbarTitle text="Interactive Classification" /></a>
             </Toolbar>
             <div id="main">
