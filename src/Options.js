@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText, CardActions, FlatButton} from 'material-ui';
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
-import {indigo800} from 'material-ui/styles/colors';
+import {indigo500} from 'material-ui/styles/colors';
 import './App.css';
 
 class Options extends Component {
@@ -12,11 +12,11 @@ class Options extends Component {
     this.state = {
       tSlide: 0,
       slides: [
-        <span><b>Interactive Classification</b> allows you to modify images in order to explore how computers see.</span>,
-        <span>The <b>Class</b> column tells you what the computer thinks the image is, and the <b>Confidence %</b> column tells you how confident it is in that choice.</span>,
-        <span>By clicking on a row a <b>Class Activation Map</b> will appear. This heatmap shows what areas of the image the computer found the most important when choosing that class.</span>,
-        <span>Modifying the image allows you to explore how robust or sensitive the computer is. Hovering over the <b>Modified Image</b> you will see a pink circle. Use this to remove an object in the image by drawing over it (click and drag).</span>,
-        <span>The <b>Absolute % Change</b> column shows you by how much the old classification % has changed in the modified image. Clicking on <b>Confidence %</b> lets you see the new top classes. You can also see the new <b>Class Activation Maps</b> for the modified image by clicking on the row!</span>,
+        <span><b>Interactive Classification</b> allows you to modify images to explore how computers see.</span>,
+        <span>The <b>Class</b> column tells you what the computer thinks the image is, and the <b>Confidence %</b> column tells you how confident it is in its choice.</span>,
+        <span>You can click on row to see the <b>Class Activation Map</b>. This is a heatmap showing which areas of the image the computer found most important when choosing that class.</span>,
+        <span>Hover over the <b>Modified Image</b> to see a yellow circle. Draw, by clicking and draging over the image, to remove an object from the image.</span>,
+        <span>The <b>Absolute % Change</b> column shows you the difference between the original classication and the modified classification. Clicking on <b>Confidence %</b> sorts by the new top classes. You can also see the new <b>Class Activation Maps</b> for the modified image by clicking on a row.</span>,
         <span>Try out different images and see how the computer does! You can try taking the ball out of a soccer match, removing the poles from a skier, taking people out of a beach scene, and much more!</span>
       ]
     };
@@ -68,7 +68,7 @@ class Options extends Component {
             </div>
             <div id="svg-container">
               <svg height="60px" width="60px">
-                <circle cx="30" cy="30" fill="rgb(40, 53, 147)" r={this.props.brushSize}/>
+                <circle cx="30" cy="30" fill={indigo500} r={this.props.brushSize}/>
               </svg>
             </div>
           </div>
@@ -78,7 +78,7 @@ class Options extends Component {
         </div>
         <div id="tutorial-container">
           <Card>
-            <CardHeader title="Tutorial" titleColor={indigo800} titleStyle={{fontWeight: 800}} style={{paddingBottom: 0}} />
+            <CardHeader title="Tutorial" titleColor={indigo500} titleStyle={{fontWeight: 800}} style={{paddingBottom: 0}} />
             <CardText style={{paddingTop: 10}}>
               {this.state.slides[this.state.tSlide]}
             </CardText>
