@@ -7,6 +7,7 @@ import {MobileNet} from './mobilenet/mobilenet.js';
 import {MuiThemeProvider, AppBar, Toolbar, ToolbarTitle, Card} from 'material-ui';
 import {tealA700, red800} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import { BeatLoader } from 'react-spinners';
 
 import * as model from './model.js';
 import Options from './Options.js';
@@ -38,6 +39,7 @@ class App extends Component {
       blurSize: 2,
       blur: 0,
       reset: 0,
+      loading: false
     };
 
     // Set your ConvNet model here: model.netEnum.MOBILE or model.netEnum.SQUEEZE
@@ -80,12 +82,16 @@ class App extends Component {
       reset: 1
     }, function() {
       this.setState({
-        reset: 0
+        reset: 0,
+        loading: false
       });
     });
   }
 
   reloadSqueeze = (e, val) => {
+    this.setState({
+      loading: true
+    });
     this.net = new SqueezeNet(this.math);
     this.net.load().then(() => {
       console.log("squeeze loaded!!")
@@ -97,6 +103,9 @@ class App extends Component {
   }
 
   reloadMobile = (e, val) => {
+    this.setState({
+      loading: true
+    });
     this.net = new MobileNet(this.math);
     this.net.load().then(() => {
       this.setState({
@@ -120,9 +129,11 @@ class App extends Component {
     if (this.state.netStatus === "Loaded") {
       return (
         <MuiThemeProvider muiTheme={this.muiTheme}>
+          <BeatLoader color={'#123abc'} loading={this.state.loading} />
           <div id="mui-container">
-            <AppBar id="header" title="&nbsp;Interactive Classification" iconElementLeft={<div></div>} style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}></AppBar>
+            <AppBar id="header" title="&nbsp;Interactive Classification" zDepth={2}iconElementLeft={<div></div>} style={{backgroundColor: "rgb(40, 53, 147)", color: "white"}}></AppBar>
             <div id="main">
+              
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} /> 
               <Card className="cardStyle">
