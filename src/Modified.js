@@ -40,7 +40,7 @@ class Modified extends Component {
 
             ctx.clearRect(0, 0, 227, 227);
   
-            ctx.strokeStyle = 'rgba(237, 17, 175, 0.5)';
+            ctx.strokeStyle = 'rgba(255, 235, 59, 0.5)';
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
             ctx.lineWidth = this.props.brushSize * 2;
@@ -56,7 +56,7 @@ class Modified extends Component {
         } else {
             ctx.clearRect(0, 0, 227, 227);
   
-            ctx.strokeStyle = 'rgba(237, 17, 175, 0.5)';
+            ctx.strokeStyle = 'rgba(255, 235, 59, 0.5)';
             ctx.lineJoin = 'round';
             ctx.lineCap = 'round';
             ctx.lineWidth = this.props.brushSize * 2;
