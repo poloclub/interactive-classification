@@ -185,15 +185,11 @@ h3 {
 
 .banner-cover {
   position: relative;
-/*    background: -webkit-linear-gradient(#eeede2, #a3d5bc, #6ab8b5, #42737f);
-    background: -moz-linear-gradient(#eeede2, #a3d5bc, #6ab8b5, #42737f);
-    background: linear-gradient(#eeede2, #a3d5bc, #6ab8b5, #42737f);*/
   background-color: rgba(63, 81, 181,1.0);
   background-size: cover;
-  background-position: center;
   min-height: 100px;
-  padding-top: 6px;
-  padding-bottom: 14px;
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 .title-shine {
@@ -204,11 +200,11 @@ h3 {
 }
 
 .banner-intro {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   margin-left: 20px;
   max-width: 55%;
   color: white;
   font-size: 20px;
   font-weight: 100;
   letter-spacing: -0.02em;
+  margin-top: 14px;
 }

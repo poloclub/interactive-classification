@@ -7,6 +7,7 @@ import {MuiThemeProvider, Toolbar, ToolbarTitle, Card} from 'material-ui';
 import {indigo500, red800} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import {BeatLoader} from 'react-spinners';
+import ReactPlayer from 'react-player';
 
 import * as model from './model.js';
 import Options from './Options.js';
@@ -129,12 +130,15 @@ class App extends Component {
           <BeatLoader color={'rgb(40, 53, 147)'} loading={this.state.loading} margin={'0 auto'}/>
           <div id="mui-container">
             <div className="banner-cover" id="banner">
-              <div>
-                <p className="banner-intro"> <span class="title-shine">Interactive Classification: </span>
-                modify an image in real time to experiment with deep learning image classifiers and explore their robustness and sensitivity. Compare how different deep learning model behave using by looking at its discriminative semantic regions. 
+              <div style={{display: "inline"}}>
+                <ReactPlayer url='cvpr-video.mp4' width="204px" height="115px" style={{float: 'right', marginRight: '32%'}} playing/>
+                <p className="banner-intro"> 
+                  <span class="title-shine">Interactive Classification: </span>
+                  modify an image in real time to experiment with deep learning image classifiers and explore their robustness and sensitivity. Compare how different deep learning model behave using by looking at its discriminative semantic regions.
                 </p>
               </div>
             </div>
+            
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} />
