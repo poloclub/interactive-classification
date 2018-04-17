@@ -1,9 +1,9 @@
 # Interactive Classification for Deep Learning Interpretation
 
 We have designed and developed an interactive system that allows users to experiment with deep learning image classifiers and explore their robustness and sensitivity.
-Users are able to remove selected areas of an image in real time with classical computer vision inpainting algorithms, which allows users to ask a variety of "what if" questions by experimentally modifying images and seeing how the deep learning model reacts.
-The system also computes class activation maps for any selected class, which highlight the important semantic regions of an image the model uses for classification.
-The system runs fully in browser using Tensorflow.js, React, and SqueezeNet.
+Users are able to remove selected areas of an image in real time with classical patch-based computer vision inpainting algorithms, which allows users to ask a variety of "what if" questions by experimentally modifying images and seeing how the deep learning model reacts.
+The system also computes class activation maps for any selected class, which highlight the discriminative semantic regions of an image the model uses for classification.
+The system runs fully in browser using Tensorflow.js and React, supporting classification models MobileNet and SqueezeNet.
 
 <!-- VIDEO LINK -->
 

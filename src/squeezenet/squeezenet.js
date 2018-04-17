@@ -198,16 +198,17 @@ var SqueezeNet = (function () {
             this.variables[varName].dispose();
         }
     };
-    SqueezeNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
-        var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
-        var lastAct = dl.transpose(lastActivation.reshape([169, 512]));
-        var cam = dl.matMul(softMaxW, lastAct);
-        cam = cam.reshape([13, 13]);
-        cam = cam.sub(dl.min(cam));
-        cam = cam.div(dl.max(cam));
-        cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
-        return cam;
-    };
+    // moved to model.js to support multiple models
+    // SqueezeNet.prototype.CAM = function (softmaxWeights, lastActivation, classX) {
+    //     var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
+    //     var lastAct = dl.transpose(lastActivation.reshape([169, 512]));
+    //     var cam = dl.matMul(softMaxW, lastAct);
+    //     cam = cam.reshape([13, 13]);
+    //     cam = cam.sub(dl.min(cam));
+    //     cam = cam.div(dl.max(cam));
+    //     cam = dl.squeeze(dl.image.resizeBilinear(cam.expandDims(2), [227, 227]));
+    //     return cam;
+    // };
     return SqueezeNet;
 }());
 exports.SqueezeNet = SqueezeNet;

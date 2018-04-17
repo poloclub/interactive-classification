@@ -162,3 +162,12 @@ h3 {
   padding-right: 200px;
   width: 225px;
 }
+
+#header {
+  background-color: #283593;
+}
+
+.modelButton {
+  margin-bottom: 10px;
+  display: inline;
+}

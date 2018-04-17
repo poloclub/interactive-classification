@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText, CardActions, FlatButton} from 'material-ui';
+import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText, CardActions, FlatButton, TextField} from 'material-ui';
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {indigo500} from 'material-ui/styles/colors';
@@ -10,6 +10,7 @@ class Options extends Component {
     super(props);
     
     this.state = {
+      mLabel: props.net.constructor.name,
       tSlide: 0,
       slides: [
         <span><b>Interactive Classification</b> allows you to modify images to explore how computers see.</span>,
@@ -36,6 +37,12 @@ class Options extends Component {
         tSlide: this.state.tSlide - 1
       });
     }
+  }
+
+  componentWillReceiveProps(nProps) {
+      if (nProps.reset) {
+        this.setState({mLabel: nProps.net.constructor.name});
+      }
   }
 
   render() {
@@ -72,6 +79,12 @@ class Options extends Component {
               </svg>
             </div>
           </div>
+        </div>
+        <div id="select-container">
+          <RaisedButton className="modelButton" label="SqueezeNet" secondary={true} onClick={this.props.reloadSQ}/> 
+          <br />
+          <RaisedButton className="modelButton" label="MobileNet" secondary={true} onClick={this.props.reloadMB}/>
+          <h4>Current model: </h4> <TextField id="modelLabel" style={{display: "inline"}} value={this.state.mLabel} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>
