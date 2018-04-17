@@ -128,9 +128,13 @@ class App extends Component {
         <MuiThemeProvider muiTheme={this.muiTheme}>
           <BeatLoader color={'rgb(40, 53, 147)'} loading={this.state.loading} margin={'0 auto'}/>
           <div id="mui-container">
-            <Toolbar id="header" style={{backgroundColor: "rgba(63, 81, 181,1.0)", color: "white"}}>
-              <a href="/"><ToolbarTitle text="Interactive Classification" /></a>
-            </Toolbar>
+            <div className="banner-cover" id="banner">
+              <div>
+                <p className="banner-intro"> <span class="title-shine">Interactive Classification: </span>
+                modify an image in real time to experiment with deep learning image classifiers and explore their robustness and sensitivity. Compare how different deep learning model behave using by looking at its discriminative semantic regions. 
+                </p>
+              </div>
+            </div>
             <div id="main">
               <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} />
