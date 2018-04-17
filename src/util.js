@@ -5,6 +5,7 @@ import {TableRow, TableRowColumn} from 'material-ui';
 import {scaleSequential} from 'd3-scale';
 import {rgb} from 'd3-color';
 import {interpolateInferno} from 'd3-scale-chromatic'
+import * as model from './model.js';
 
 const SCALE = scaleSequential(interpolateInferno).domain([0,1]);
 
@@ -21,8 +22,7 @@ export function drawImage(ctx, src, callback) {
 
 export function drawCAM(img, net, activation, canvas, id) {
     const weights = net.getLastWeights();
-    let cam = net.CAM(weights, activation, id);
-
+    let cam = (net.constructor.name=="SqueezeNet") ? model.CAM(weights, activation, id, 169, 512) : model.CAM(weights, activation, id, 64, 1024);
 
     cam = cam.dataSync();
     let buff = new Uint8ClampedArray(227*227*4);
@@ -48,7 +48,7 @@ export function predict(img, net, classes, callback) {
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = net.predictWithActivation(resized, 'fire9');
+    const resAll = (net.constructor.name=="SqueezeNet") ? net.predictWithActivation(resized, 'fire9') : net.predictWithActivation(resized);
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
     const res = resAll.logits;

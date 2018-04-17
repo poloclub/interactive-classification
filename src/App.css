@@ -23,7 +23,7 @@ a {
 #main {
   display: flex;
   bottom: 0;
-  height: calc(100% - 56px);
+  height: calc(100% - 120px);
 }
 
 @media screen and (max-width:990px) {
@@ -147,6 +147,7 @@ a {
 }
 
 h3 {
+  margin-left: 15px;
   margin-bottom: -3px;
 }
 
@@ -157,8 +158,53 @@ h3 {
 
 #tutorial-container {
   position: absolute;
-  bottom: 24px;
+  bottom: 40px;
   padding-left: 24px;
   padding-right: 200px;
   width: 225px;
+}
+
+#header {
+  background-color: #283593;
+}
+
+.modelButton {
+  margin-bottom: 10px;
+  display: inline;
+}
+
+/*Banner*/
+.banner {
+  background-size: cover;
+  /*background-position: center;*/
+  min-height: 250px;
+  padding-top: 64px;
+  padding-bottom: 32px;
+  position: relative;
+}
+
+.banner-cover {
+  position: relative;
+  background-color: rgba(63, 81, 181,1.0);
+  background-size: cover;
+  min-height: 100px;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.title-shine {
+  color: white;
+  font-size: 30px;
+  font-weight: 120;
+  background-position: left;
+}
+
+.banner-intro {
+  margin-left: 20px;
+  max-width: 55%;
+  color: white;
+  font-size: 20px;
+  font-weight: 100;
+  letter-spacing: -0.02em;
+  margin-top: 14px;
 }

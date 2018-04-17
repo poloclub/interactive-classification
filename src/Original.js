@@ -16,6 +16,7 @@ class Original extends Component {
 
     drawCAM = (e) => {
         if (e.length !== 0) {
+            // TODO: move IMAGENET_CLASSES SOMEWHERE
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
@@ -47,6 +48,9 @@ class Original extends Component {
     componentWillReceiveProps(nProps) {
         if (this.props.image !== nProps.image) {
             this.drawAndUpdate(nProps.image);
+        }
+        if (nProps.reset) {
+          this.drawAndUpdate(this.props.image);
         }
         this.props = nProps;
     }
