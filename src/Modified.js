@@ -3,6 +3,7 @@ import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
+import {BeatLoader} from 'react-spinners';
 import './App.css';
 
 class Modified extends Component {
@@ -15,6 +16,7 @@ class Modified extends Component {
             clickX: [],
             clickY: [],
             order: 0,
+            loading: false
         };
     }
 
@@ -69,7 +71,8 @@ class Modified extends Component {
 
     mouseUp = () => {
         this.setState({
-            mouseDown: false
+            mouseDown: false, 
+            loading: true
         }) 
 
         inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'))
@@ -85,6 +88,10 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
+
+            this.setState({
+                loading: false
+            }); 
          });
     }
 
@@ -184,6 +191,7 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
+              <BeatLoader color={'rgb(40, 53, 147)'} loading={this.state.loading} margin={'0 auto'}/>
               <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
                 <canvas id="modified-canvas" height="227px" width="227px" 
                         ref={cImg => this.cImg = cImg}> 
