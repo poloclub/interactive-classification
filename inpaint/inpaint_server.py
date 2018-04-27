@@ -8,10 +8,6 @@ import sys
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 import json
-app = Flask(__name__)
-
-cors = CORS(app)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 def inpaint(img_arr, mask_arr):
 
@@ -35,14 +31,26 @@ def inpaint(img_arr, mask_arr):
     os.remove('.imgbytes')
     return nums
 
-@app.route('/')
-def hello_world():
-    return "Hello World!"
+def create_app():
+    app = Flask(__name__)
 
-@app.route('/inpaint', methods=['POST'])
-@cross_origin()
-def inpaint_req():
-    if request.method == 'POST':
-        data = request.get_json(force=True)
-        return jsonify(inpaint(data['image'], data['mask']))
-    return jsonify({"error": "Must be post request"})
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
+
+    @app.route('/')
+    def hello_world():
+        return "Hello World!"
+
+    @app.route('/inpaint', methods=['POST'])
+    @cross_origin()
+    def inpaint_req():
+        if request.method == 'POST':
+            data = request.get_json(force=True)
+            return jsonify(inpaint(data['image'], data['mask']))
+        return jsonify({"error": "Must be post request"})
+
+    return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run()

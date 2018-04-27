@@ -12,7 +12,7 @@ class Options extends Component {
     this.state = {
       tSlide: 0,
       slides: [
-        <span><b>Interactive Classificati on</b> allows you to explore how computers see by modifying images.</span>,
+        <span><b>Interactive Classification</b> allows you to explore how computers see by modifying images.</span>,
         <span>The <b>Class</b> column tells you what the computer thinks the image is, and the <b>Confidence %</b> column tells you how confident it is in its choice.</span>,
         <span>You can click on a row to see the <b>Class Activation Map</b>. This is a heatmap showing which areas of the image the computer found most important when choosing that class.</span>,
         <span>Hover over the <b>Modified Image</b> to see a yellow circle. Draw, by clicking and dragging over the image, to remove an object.</span>,

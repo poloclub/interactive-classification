@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {canvasRGB} from 'stackblur-canvas';
+import {ClipLoader} from 'react-spinners';
 
 import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
@@ -73,7 +74,8 @@ class Modified extends Component {
 
     mouseUp = () => {
         this.setState({
-            mouseDown: false
+            mouseDown: false,
+            loading: true
         }) 
 
         inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d')).then(img => {
@@ -88,7 +90,7 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
-         });
+         }).then(() => this.setState({ loading: false }));
     }
 
     mouseLeave = () => {
@@ -188,7 +190,7 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
-                <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
+                <Paper style={{marginBottom: 30, height: 227, width: 227, display: "inline-block"}} zDepth={3}>
                     <canvas id="modified-canvas" height="227px" width="227px" 
                             ref={cImg => this.cImg = cImg}> 
                     </canvas>
@@ -199,7 +201,10 @@ class Modified extends Component {
                             onMouseLeave={this.mouseLeave}>
                     </canvas>
                 </Paper>
-                <h3>Modified Image</h3>
+                <div id="inpaint-loader">
+                    <ClipLoader id="inpaint-loader" color="rgb(63, 81, 181)" loading={this.state.loading} />
+                </div>
+                <h3 id="modified-title">Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
                         <TableRow className="header-row" onCellClick={(e, f, g) => this.orderChanged(e, f, g)}>

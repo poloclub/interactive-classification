@@ -166,3 +166,12 @@ h3 {
 #loading-text {
   margin: 30px;
 }
+
+#inpaint-loader {
+  display: inline-block;
+  margin-left: 20px;
+}
+
+#modified-title {
+  margin-top: 0px;
+}
