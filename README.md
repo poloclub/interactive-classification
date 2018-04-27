@@ -5,6 +5,12 @@ Selected areas of an image can be removed in real time with classical computer v
 The system also computes class activation maps for any selected class, which highlight the important semantic regions of an image the model uses for classification.
 The system runs fully in browser using Tensorflow.js, React, and SqueezeNet. An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
 
+![Successful classification](success.png)
+*The baseball player is correctly classified even when the ball, glove, and base are removed*
+
+![Failed classification](failure.png)
+*The dock is incorrectly classified when the masts of a sailboat are removed*
+
 <!-- VIDEO LINK -->
 
 ***
@@ -40,7 +46,7 @@ The following steps are needed to set up PatchMatch inpainting:
 1. Clone the [Resynthesizer](https://github.com/bootchk/resynthesizer) repository and follow the instructions for building the project
 2. Find the `libresynthesizer.a` shared library in the `lib` folder and copy it to the `inpaint` folder in this repository
 3. Run `gcc resynth.c -L. -lresynthesizer -lm -lglib-2.0 -o prog` (may have to install glib2.0 first) to generate the prog executable
-4. You can now run `inpaint_server.py` and PatchMatch will be used as the inpainting algorithm.
+4. You can now run `python3 inpaint_server.py` and PatchMatch will be used as the inpainting algorithm.
 
 ## License
 

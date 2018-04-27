@@ -85,7 +85,7 @@ export async function inpaint(iCtx, dCtx) {
     }
 
     // Try to call resynthesizer, if not use Telea
-    return fetch('http://ec2-54-152-210-53.compute-1.amazonaws.com/inpaint', {
+    return fetch('http://127.0.0.1:5000/inpaint', {
         method: 'POST',
         mode: 'cors',
         headers: {
