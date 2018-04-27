@@ -162,3 +162,7 @@ h3 {
   padding-right: 200px;
   width: 225px;
 }
+
+#loading-text {
+  margin: 30px;
+}

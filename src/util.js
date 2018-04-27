@@ -1,10 +1,12 @@
 import React from 'react';
-import * as dl from 'deeplearn';
-import {InpaintTelea} from './inpaint';
+
 import {TableRow, TableRowColumn} from 'material-ui';
+import * as dl from 'deeplearn';
 import {scaleSequential} from 'd3-scale';
 import {rgb} from 'd3-color';
 import {interpolateInferno} from 'd3-scale-chromatic'
+
+import {InpaintTelea} from './inpaint';
 
 const SCALE = scaleSequential(interpolateInferno).domain([0,1]);
 
@@ -20,11 +22,9 @@ export function drawImage(ctx, src, callback) {
 }
 
 export function drawCAM(img, net, activation, canvas, id) {
-    const weights = net.getLastWeights();
-    let cam = net.CAM(weights, activation, id);
-
-
+    let cam = net.CAM(net.getLastWeights(), activation, id);
     cam = cam.dataSync();
+
     let buff = new Uint8ClampedArray(227*227*4);
     for (let y = 0; y < 227; y++) {
         for (let x = 0; x < 227; x++) {

@@ -24,7 +24,7 @@ class App extends Component {
     super(props);
     
     this.state = {
-      netStatus: 'Loading SqueezeNet',
+      netLoaded: false,
       image: 'lighthouse.jpg',
       topK: new Map(),
       brushSize: 15,
@@ -35,9 +35,10 @@ class App extends Component {
 
     this.math = dl.ENV.math;
     this.net = new SqueezeNet(this.math);
+
     this.net.load().then(() => {
       this.setState({
-        netStatus: 'Loaded'
+        netLoaded: true
       }) 
     });
   }
@@ -87,7 +88,7 @@ class App extends Component {
   }
 
   render() {
-    if (this.state.netStatus === "Loaded") {
+    if (this.state.netLoaded) {
       return (
         <MuiThemeProvider muiTheme={muiTheme}>
           <div id="mui-container">
@@ -106,7 +107,7 @@ class App extends Component {
       );
     } else {
       return (
-        <h3>Loading SqueezeNet</h3>
+        <h3 id="loading-text">Loading Net</h3>
       );
     }
   }

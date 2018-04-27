@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
-import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
+
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
-import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
+
+import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
+import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import './App.css';
+
 
 class Modified extends Component {
     constructor(props) {
@@ -14,7 +17,8 @@ class Modified extends Component {
             mouseDown: false,
             clickX: [],
             clickY: [],
-            order: 0,
+            order: false,
+            loading: false
         };
     }
 
@@ -72,8 +76,7 @@ class Modified extends Component {
             mouseDown: false
         }) 
 
-        inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d'))
-        .then(img => {
+        inpaint(this.cImg.getContext('2d'), this.cDraw.getContext('2d')).then(img => {
             let classes = null;
             if (!this.state.order) {
                 classes = Array.from(this.props.topK.keys());
@@ -89,11 +92,12 @@ class Modified extends Component {
     }
 
     mouseLeave = () => {
-       const ctx = this.cDraw.getContext('2d');
-       ctx.clearRect(0, 0, 227, 227);
        this.setState({
            mouseDown: false
        }) 
+
+       const ctx = this.cDraw.getContext('2d');
+       ctx.clearRect(0, 0, 227, 227);
     }
 
     drawCAM = (e) => {
@@ -184,17 +188,17 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
-              <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
-                <canvas id="modified-canvas" height="227px" width="227px" 
-                        ref={cImg => this.cImg = cImg}> 
-                </canvas>
-                <canvas id="modified-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
-                <canvas id="draw-canvas" height="227px" width="227px" 
-                        ref={cDraw => this.cDraw = cDraw} onMouseDown={this.mouseDown}
-                        onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
-                        onMouseLeave={this.mouseLeave}>
-                </canvas>
-              </Paper>
+                <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
+                    <canvas id="modified-canvas" height="227px" width="227px" 
+                            ref={cImg => this.cImg = cImg}> 
+                    </canvas>
+                    <canvas id="modified-cam" height="227px" width="227px" ref={c => this.cCam = c}></canvas>
+                    <canvas id="draw-canvas" height="227px" width="227px" 
+                            ref={cDraw => this.cDraw = cDraw} onMouseDown={this.mouseDown}
+                            onMouseMove={this.mouseMove} onMouseUp={this.mouseUp}
+                            onMouseLeave={this.mouseLeave}>
+                    </canvas>
+                </Paper>
                 <h3>Modified Image</h3>
                 <Table className="table" onRowSelection={this.drawCAM}>
                     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
