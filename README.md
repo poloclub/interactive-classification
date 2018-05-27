@@ -52,11 +52,11 @@ The following steps are needed to set up PatchMatch inpainting:
 
 ## Citation
 
-**ShapeShop: Towards Understanding Deep Learning Representations via Interactive Experimentation.**  
+**Interactive Classification for Deep Learning Interpretation.**  
 [Angel Cabrera][alex], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng Chau][polo]  
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
-[Read the paper][paper].  
+<!-- [Read the paper][paper].   -->
 [Watch the video][video].
 
 
@@ -69,7 +69,7 @@ MIT License. See [`LICENSE.md`](LICENSE.md).
 
 For questions or support [open an issue][issues].
 
-[paper]: "Paper"
+<!-- [paper]: "Paper" -->
 [video]: https://youtu.be/llub5GcOF6w "Video"
 [fred]: http://fredhohman.com "Fred Hohman"
 [angel]: http://cabreraalex.com/ "Alex Cabrera"
