@@ -15,6 +15,7 @@ The system runs fully in browser using Tensorflow.js, React, and SqueezeNet. An 
 
 ***
 
+
 ## Installation
 
 Download or clone this repository:
@@ -48,6 +49,17 @@ The following steps are needed to set up PatchMatch inpainting:
 3. Run `gcc resynth.c -L. -lresynthesizer -lm -lglib-2.0 -o prog` (may have to install glib2.0 first) to generate the prog executable
 4. You can now run `python3 inpaint_server.py` and PatchMatch will be used as the inpainting algorithm.
 
+
+## Citation
+
+**ShapeShop: Towards Understanding Deep Learning Representations via Interactive Experimentation.**  
+[Angel Cabrera][alex], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng Chau][polo]  
+*Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
+
+[Read the paper][paper].  
+[Watch the video][video].
+
+
 ## License
 
 MIT License. See [`LICENSE.md`](LICENSE.md).
@@ -57,4 +69,10 @@ MIT License. See [`LICENSE.md`](LICENSE.md).
 
 For questions or support [open an issue][issues].
 
-[issues]: https://github.com/poloclub/interactive-classification/issues
+[paper]: "Paper"
+[video]: https://youtu.be/llub5GcOF6w "Video"
+[fred]: http://fredhohman.com "Fred Hohman"
+[angel]: http://cabreraalex.com/ "Alex Cabrera"
+[jason]: http://jlin.xyz/ "Jason Lin"
+[polo]: http://www.cc.gatech.edu/~dchau/ "Polo Chau"
+[issues]: https://github.com/poloclub/interactive-classification/issues "Issues"
