@@ -6,21 +6,18 @@ The system also computes class activation maps for any selected class, which hig
 The system runs fully in browser using Tensorflow.js, React, and SqueezeNet.
 An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
 
+[![YouTube video demo](images/thumbnail.png)](https://youtu.be/llub5GcOF6w)
+
 This is the code repository for the accepted [CVPR 2018][cvpr18] Demo: **Interactive Classification for Deep Learning Interpretation**.
 Visit our research group homepage [Polo Club of Data Science][poloclub] at [Georgia Tech](http://www.gatech.edu) for more related research!
 
 
-## Video Demo
+## Example Scenario: Interpreting "Failed" Classification
 
-[![YouTube video demo](readme/interactive-experimentation-youtube-thumbnail.jpg)](https://youtu.be/llub5GcOF6w)
-
-
-## Example Usage Scenario: Interpreting "Failed" Classification
-
-![Failed classification](readme/failure.png)
 The modified image (left), originally classified as *dock* is misclassified as *ocean liner* when the masts of a couple boats are removed from the original image (right).
 The top five classification scores are tabulated underneath each image.
 
+![Failed classification](images/failure.png)
 
 ## Installation
 
