@@ -18,7 +18,7 @@ Visit our research group homepage [Polo Club of Data Science][poloclub] at [Geor
 ## Example Usage Scenario: Interpreting "Failed" Classification
 
 ![Failed classification](readme/failure.png)
-The modified image (left), originally classified as *dock* is misclassified as *ocean liner when the masts of a couple boats are removed from the original image (right).
+The modified image (left), originally classified as *dock* is misclassified as *ocean liner* when the masts of a couple boats are removed from the original image (right).
 The top five classification scores are tabulated underneath each image.
 
 
