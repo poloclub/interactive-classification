@@ -11,7 +11,6 @@ An advanced inpainting version is also available using a server running the Patc
 This is the code repository for the accepted [CVPR 2018][cvpr18] Demo: **Interactive Classification for Deep Learning Interpretation**.
 Visit our research group homepage [Polo Club of Data Science][poloclub] at [Georgia Tech](http://www.gatech.edu) for more related research!
 
-
 ## Example Scenario: Interpreting "Failed" Classification
 
 The modified image (left), originally classified as *dock* is misclassified as *ocean liner* when the masts of a couple boats are removed from the original image (right).
@@ -52,16 +51,11 @@ The following steps are needed to set up PatchMatch inpainting:
 3. Run `gcc resynth.c -L. -lresynthesizer -lm -lglib-2.0 -o prog` (may have to install glib2.0 first) to generate the prog executable
 4. You can now run `python3 inpaint_server.py` and PatchMatch will be used as the inpainting algorithm.
 
-
 ## Citation
 
 **Interactive Classification for Deep Learning Interpretation.**  
 [Angel Cabrera][angel], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng (Polo) Chau][polo]  
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
-
-<!-- [Read the paper][paper].   -->
-
-
 
 ## Researchers
 
@@ -72,17 +66,14 @@ The following steps are needed to set up PatchMatch inpainting:
 | [Jason Lin][jason]        | Georgia Tech |
 | [Duen Horng (Polo) Chau][polo]             | Georgia Tech |
 
-
 ## License
 
 MIT License. See [`LICENSE.md`](LICENSE.md).
-
 
 ## Contact
 
 For questions or support [open an issue][issues].
 
-<!-- [paper]: "Paper" -->
 [video]: https://youtu.be/llub5GcOF6w "Video"
 [fred]: http://fredhohman.com "Fred Hohman"
 [angel]: http://cabreraalex.com/ "Alex Cabrera"
