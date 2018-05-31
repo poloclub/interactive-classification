@@ -3,19 +3,23 @@
 We have designed and developed an interactive system that allows users to experiment with deep learning image classifiers and explore their robustness and sensitivity.
 Selected areas of an image can be removed in real time with classical computer vision inpainting algorithms, allowing users to ask a variety of "what if" questions by experimentally modifying images and seeing how the deep learning model reacts.
 The system also computes class activation maps for any selected class, which highlight the important semantic regions of an image the model uses for classification.
-The system runs fully in browser using Tensorflow.js, React, and SqueezeNet. An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
+The system runs fully in browser using Tensorflow.js, React, and SqueezeNet.
+An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
 
-This is the code repository for the accepted [CVPR 2018](http://cvpr2018.thecvf.com) Demo: **Interactive Classification for Deep Learning Interpretation**. Visit our research group homepage [Polo Club of Data Science](https://poloclub.github.io) at [Georgia Tech](http://www.gatech.edu) for more related research!
+This is the code repository for the accepted [CVPR 2018][cvpr18] Demo: **Interactive Classification for Deep Learning Interpretation**.
+Visit our research group homepage [Polo Club of Data Science][poloclub] at [Georgia Tech](http://www.gatech.edu) for more related research!
 
 
 ## Video Demo
+
 [![YouTube video demo](readme/interactive-experimentation-youtube-thumbnail.jpg)](https://youtu.be/llub5GcOF6w)
 
 
 ## Example Usage Scenario: Interpreting "Failed" Classification
 
 ![Failed classification](readme/failure.png)
-*"Dock" image incorrectly classified as "ocean liner" when the masts of a sailboat are removed.*
+The modified image (left), originally classified as *dock* is misclassified as *ocean liner when the masts of a couple boats are removed from the original image (right).
+The top five classification scores are tabulated underneath each image.
 
 
 ## Installation
@@ -88,3 +92,5 @@ For questions or support [open an issue][issues].
 [jason]: http://jlin.xyz/ "Jason Lin"
 [polo]: http://www.cc.gatech.edu/~dchau/ "Polo Chau"
 [issues]: https://github.com/poloclub/interactive-classification/issues "Issues"
+[cvpr18]: http://cvpr2018.thecvf.com
+[poloclub]: https://poloclub.github.io
