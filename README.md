@@ -5,15 +5,21 @@ Selected areas of an image can be removed in real time with classical computer v
 The system also computes class activation maps for any selected class, which highlight the important semantic regions of an image the model uses for classification.
 The system runs fully in browser using Tensorflow.js, React, and SqueezeNet. An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
 
-![Successful classification](success.png)
-*The baseball player is correctly classified even when the ball, glove, and base are removed*
+
+## Video Demo
+[![YouTube video demo](readme/interactive-experimentation-youtube-thumbnail.jpg)](https://youtu.be/llub5GcOF6w)
+
+
+## Example Usage Scenario: Interpreting "Failed" Classification
 
 ![Failed classification](failure.png)
-*The dock is incorrectly classified when the masts of a sailboat are removed*
+*"Dock" image incorrectly classified as "ocean liner" when the masts of a sailboat are removed.*
 
-<!-- VIDEO LINK -->
+<!-- 
+![Successful classification](success.png)
+*The baseball player is correctly classified even when the ball, glove, and base are removed*
+-->
 
-***
 
 
 ## Installation
@@ -57,7 +63,7 @@ The following steps are needed to set up PatchMatch inpainting:
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
 <!-- [Read the paper][paper].   -->
-[Watch the video][video].
+<!-- [Watch the video][video]. -->
 
 
 ## License
