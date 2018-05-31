@@ -53,7 +53,7 @@ The following steps are needed to set up PatchMatch inpainting:
 
 ## Citation
 
-**Interactive Classification for Deep Learning Interpretation.**  
+**[Interactive Classification for Deep Learning Interpretation][site]**  
 [Angel Cabrera][angel], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng (Polo) Chau][polo]  
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
@@ -74,6 +74,8 @@ MIT License. See [`LICENSE.md`](LICENSE.md).
 
 For questions or support [open an issue][issues].
 
+[site]: http://fredhohman.com/papers/interactive-classification
+[paper]: http://fredhohman.com/papers/18-interactive-cvpr.pdf
 [video]: https://youtu.be/llub5GcOF6w "Video"
 [fred]: http://fredhohman.com "Fred Hohman"
 [angel]: http://cabreraalex.com/ "Alex Cabrera"
