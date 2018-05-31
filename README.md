@@ -14,14 +14,8 @@ This is the code repository for the accepted [CVPR 2018](http://cvpr2018.thecvf.
 
 ## Example Usage Scenario: Interpreting "Failed" Classification
 
-![Failed classification](failure.png)
+![Failed classification](readme/failure.png)
 *"Dock" image incorrectly classified as "ocean liner" when the masts of a sailboat are removed.*
-
-<!-- 
-![Successful classification](success.png)
-*The baseball player is correctly classified even when the ball, glove, and base are removed*
--->
-
 
 
 ## Installation
@@ -65,7 +59,7 @@ The following steps are needed to set up PatchMatch inpainting:
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
 <!-- [Read the paper][paper].   -->
-<!-- [Watch the video][video]. -->
+
 
 
 ## Researchers
