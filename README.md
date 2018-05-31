@@ -5,6 +5,8 @@ Selected areas of an image can be removed in real time with classical computer v
 The system also computes class activation maps for any selected class, which highlight the important semantic regions of an image the model uses for classification.
 The system runs fully in browser using Tensorflow.js, React, and SqueezeNet. An advanced inpainting version is also available using a server running the PatchMatch algorithm from the [GIMP Resynthesizer plugin](https://github.com/bootchk/resynthesizer).
 
+This is the code repository for the accepted [CVPR 2018](http://cvpr2018.thecvf.com) Demo: **Interactive Classification for Deep Learning Interpretation**. Visit our research group homepage [Polo Club of Data Science](https://poloclub.github.io) at [Georgia Tech](http://www.gatech.edu) for more related research!
+
 
 ## Video Demo
 [![YouTube video demo](readme/interactive-experimentation-youtube-thumbnail.jpg)](https://youtu.be/llub5GcOF6w)
@@ -59,11 +61,21 @@ The following steps are needed to set up PatchMatch inpainting:
 ## Citation
 
 **Interactive Classification for Deep Learning Interpretation.**  
-[Angel Cabrera][angel], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng Chau][polo]  
+[Angel Cabrera][angel], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng (Polo) Chau][polo]  
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
 <!-- [Read the paper][paper].   -->
 <!-- [Watch the video][video]. -->
+
+
+## Researchers
+
+|  Name                 | Affiliation                     |
+|-----------------------|---------------------------------|
+| [Angel Cabrera][angel]           | Georgia Tech |
+| [Fred Hohman][fred]    | Georgia Tech |
+| [Jason Lin][jason]        | Georgia Tech |
+| [Duen Horng (Polo) Chau][polo]             | Georgia Tech |
 
 
 ## License
