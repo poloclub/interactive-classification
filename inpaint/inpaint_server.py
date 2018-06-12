@@ -22,7 +22,7 @@ def inpaint(img_arr, mask_arr):
             f.write(str(x) + " ")
 
     # Call the C program and read back the modified RGB array
-    subprocess.call(['./prog'])
+    x = subprocess.call(['./prog'])
     with open('.imgbytes', 'r') as f:
         nums = [int(x) for x in f.readline().split(' ')[:-1]]
 
@@ -36,10 +36,6 @@ def create_app():
 
     cors = CORS(app)
     app.config['CORS_HEADERS'] = 'Content-Type'
-
-    @app.route('/')
-    def hello_world():
-        return "Hello World!"
 
     @app.route('/inpaint', methods=['POST'])
     @cross_origin()
