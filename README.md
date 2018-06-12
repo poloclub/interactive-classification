@@ -44,12 +44,12 @@ yarn start
 
 ## Advanced Inpainting
 
-The following steps are needed to set up PatchMatch inpainting:
+The following steps are needed to set up PatchMatch inpainting, which currently only works on Linux:
 
-1. Clone the [Resynthesizer](https://github.com/bootchk/resynthesizer) repository and follow the instructions for building the project
-2. Find the `libresynthesizer.a` shared library in the `lib` folder and copy it to the `inpaint` folder in this repository
-3. Run `gcc resynth.c -L. -lresynthesizer -lm -lglib-2.0 -o prog` (may have to install glib2.0 first) to generate the prog executable
-4. You can now run `python3 inpaint_server.py` and PatchMatch will be used as the inpainting algorithm.
+1. Clone the [Resynthesizer](https://github.com/bootchk/resynthesizer) repository and follow the instructions for building the project (stop after running `make`)
+2. Find the `libresynthesizer.a` shared library in the generated `lib` folder and copy it to the `inpaint` folder in this repository
+3. Run `gcc resynth.c -L. -lresynthesizer -lm -lglib-2.0 -o prog` (may have to install glib2.0 first) to generate the `prog` executable
+4. You can now run `python3 inpaint_server.py` and PatchMatch will be used as the inpainting algorithm when running the React application with `yarn start`.
 
 ## Citation
 
