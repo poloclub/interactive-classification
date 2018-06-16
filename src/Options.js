@@ -44,20 +44,15 @@ class Options extends Component {
         <div id="select-container">
           <h4>Select Image</h4>
           <SelectField onChange={this.props.imageChanged} value={this.props.image} fullWidth={true}>
-            <MenuItem value="lighthouse.jpg" primaryText="Lighthouse"/>
-            <MenuItem value="sailboat.jpg" primaryText="Sail Boat"/>
-            <MenuItem value="soccer.jpg" primaryText="Soccer"/>
             <MenuItem value="baseball.jpg" primaryText="Baseball"/>
-            <MenuItem value="nadal.jpg" primaryText="Nadal"/>
-            <MenuItem value="boat.png" primaryText="Boat"/>
-            <MenuItem value="elephant.jpg" primaryText="Elephant"/>
-            <MenuItem value="crowd.jpg" primaryText="Crowd"/>
-            <MenuItem value="ski.jpg" primaryText="Ski Lift"/>
             <MenuItem value="skiing.jpg" primaryText="Skiing"/>
-            <MenuItem value="ride.jpg" primaryText="Attraction Park"/>
-            <MenuItem value="jazz.jpg" primaryText="Jazz Stage"/>
-            <MenuItem value="desk.jpg" primaryText="Desk"/>
+            <MenuItem value="hockey.jpg" primaryText="Hockey Goal"/>
+            <MenuItem value="bank.jpg" primaryText="ATM"/>
+            <MenuItem value="soccer.jpg" primaryText="Soccer"/>
+            <MenuItem value="sailboat.jpg" primaryText="Sail Boat"/>
+            <MenuItem value="lighthouse.jpg" primaryText="Lighthouse"/>
             <MenuItem value="beach.jpg" primaryText="Beach"/>
+            <MenuItem value="hockey2.jpg" primaryText="Hockey"/>
           </SelectField>
         </div>
         <div id="brush-container">

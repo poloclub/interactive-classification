@@ -25,7 +25,7 @@ class App extends Component {
     
     this.state = {
       netLoaded: false,
-      image: 'lighthouse.jpg',
+      image: 'baseball.jpg',
       topK: new Map(),
       brushSize: 15,
       blurSize: 2,
