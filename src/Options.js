@@ -3,7 +3,12 @@ import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText,
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {indigo500} from 'material-ui/styles/colors';
+import Button from '@material-ui/core/Button';
 import './App.css';
+
+import { unmountComponentAtNode } from 'react-dom';
+import ReactDOM from 'react-dom';
+// import ReactDOM from 'react-dom'
 
 class Options extends Component {
   constructor(props) {
@@ -19,7 +24,8 @@ class Options extends Component {
         <span>Hover over the <b>Modified Image</b> to see a yellow circle. Draw, by clicking and draging over the image, to remove an object from the image.</span>,
         <span>The <b>Absolute % Change</b> column shows you the difference between the original classication and the modified classification. Clicking on <b>Confidence %</b> sorts by the new top classes. You can also see the new <b>Class Activation Maps</b> for the modified image by clicking on a row.</span>,
         <span>Try out different images and see how the computer does! You can try taking the ball out of a soccer match, removing the poles from a skier, taking people out of a beach scene, and much more!</span>
-      ]
+      ],
+      displayTutorial: true
     };
   }
 
@@ -29,6 +35,10 @@ class Options extends Component {
         tSlide: this.state.tSlide + 1
       });
     }
+  }
+
+  handleDelete = () => {
+    this.setState({displayTutorial: false});
   }
 
   prevPage = () => {
@@ -46,6 +56,25 @@ class Options extends Component {
   }
 
   render() {
+    var tutorial;
+    if (this.state.displayTutorial) {
+      tutorial = <div id="tutorial-container" ref="tutorialCard">
+                  <Card>
+                    <CardHeader title="Tutorial" titleColor={indigo500} titleStyle={{fontWeight: 800}} style={{paddingBottom: 0, position: "absolute"}} />
+                    <CardActions class="float-right">
+                      <Button size="small" color="primary" onClick={this.handleDelete}>Dismiss</Button>
+                    </CardActions><br/><br/>
+                    <CardText style={{paddingTop: 10}}>
+                      {this.state.slides[this.state.tSlide]}
+                    </CardText>
+                    <CardActions>
+                      <FlatButton icon={<NavigationArrowBack />} onClick={this.prevPage} />
+                      <FlatButton icon={<NavigationArrowForward />} onClick={this.nextPage}/>
+                    </CardActions>
+                  </Card>
+                </div>;
+    }
+
     return (
       <div className="box" id="options">
         <div id="select-container">
@@ -89,23 +118,13 @@ class Options extends Component {
           <RaisedButton className="modelButton" label="SqueezeNet" secondary={true} onClick={this.props.reloadSQ}/> 
           <br />
           <RaisedButton className="modelButton" label="MobileNet" secondary={true} onClick={this.props.reloadMB}/>
-          <h4>Current model: </h4> <TextField id="modelLabel" style={{display: "inline"}} value={this.state.mLabel} />
+          <h4 style={{marginTop: "10px", marginBottom: "5px"}}>Current model: </h4> <TextField id="modelLabel" style={{display: "inline"}} value={this.state.mLabel} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>
         </div>
-        <div id="tutorial-container">
-          <Card>
-            <CardHeader title="Tutorial" titleColor={indigo500} titleStyle={{fontWeight: 800}} style={{paddingBottom: 0}} />
-            <CardText style={{paddingTop: 10}}>
-              {this.state.slides[this.state.tSlide]}
-            </CardText>
-            <CardActions>
-              <FlatButton icon={<NavigationArrowBack />} onClick={this.prevPage} />
-              <FlatButton icon={<NavigationArrowForward />} onClick={this.nextPage}/>
-            </CardActions>
-          </Card>
-        </div>
+        <br />
+        {tutorial}
       </div>
     );
     /*

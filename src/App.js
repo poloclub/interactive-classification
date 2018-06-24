@@ -149,7 +149,6 @@ class App extends Component {
                 </p>
               </div>
             </div>
-            
             <div id="main">
               <Options imageChanged={this.imageChanged} handleFiles={this.handleFiles} imageUploaded={this.imageUploaded} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} />

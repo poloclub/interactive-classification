@@ -57,10 +57,11 @@ a {
 
 #options {
   padding: 0px;
+  padding-bottom: 10px;
   border-right: 1px solid rgba(0, 0, 0, 0.1);
   background-color: rgb(250, 250, 250);
   min-width: 275px;
-  height: 100%;
+  overflow: auto;
   position: relative;
 }
 
@@ -114,7 +115,7 @@ a {
 
 #reset-button {
   margin-left: 24px;
-  margin-top: 25px;
+  margin-top: 10px;
 }
 
 .table {
@@ -157,7 +158,7 @@ h3 {
 }
 
 #tutorial-container {
-  position: absolute;
+  /*position: absolute;*/
   bottom: 40px;
   padding-left: 24px;
   padding-right: 200px;
@@ -179,9 +180,8 @@ h3 {
   position: relative;
   background-color: rgba(63, 81, 181,1.0);
   background-size: cover;
-  min-height: 100px;
-  padding-top: 12px;
-  /*padding-bottom: 12px;*/
+  padding-top: 10px;
+  /*padding-bottom: 0px;*/
   box-shadow: 3px 3px 5px grey;
 }
 
@@ -200,6 +200,7 @@ h3 {
   font-weight: 100;
   letter-spacing: -0.02em;
   margin-top: 14px;
+  margin-bottom: 5px;
 }
 
 .subtitle {
@@ -222,3 +223,8 @@ h3 {
   font-size: 15px;
   margin-top: 20px;
 }
+
+.float-right {
+  float: right;
+}
+
