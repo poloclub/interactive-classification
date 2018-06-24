@@ -174,14 +174,6 @@ h3 {
 }
 
 /*Banner*/
-.banner {
-  background-size: cover;
-  /*background-position: center;*/
-  min-height: 250px;
-  padding-top: 64px;
-  padding-bottom: 32px;
-  position: relative;
-}
 
 .banner-cover {
   position: relative;
@@ -189,7 +181,8 @@ h3 {
   background-size: cover;
   min-height: 100px;
   padding-top: 12px;
-  padding-bottom: 12px;
+  /*padding-bottom: 12px;*/
+  box-shadow: 3px 3px 5px grey;
 }
 
 .title-shine {
@@ -201,10 +194,31 @@ h3 {
 
 .banner-intro {
   margin-left: 20px;
-  max-width: 55%;
+  /*max-width: 100%;*/
   color: white;
   font-size: 20px;
   font-weight: 100;
   letter-spacing: -0.02em;
   margin-top: 14px;
+}
+
+.subtitle {
+  /*margin-left: 20px;*/
+  /*max-width: 100%;*/
+  color: white;
+  font-size: 20px;
+  font-weight: lighter;
+  /*letter-spacing: -0.02em;*/
+  margin-top: 20px;
+}
+
+.subtitle-right {
+  margin-right: 10px;
+  /*max-width: 100%;*/
+  position: absolute;
+  right: 0px;
+  text-align: right;
+  color: white;
+  font-size: 15px;
+  margin-top: 20px;
 }

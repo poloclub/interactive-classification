@@ -15,7 +15,7 @@ export function drawImage(ctx, src, callback) {
 
     img.onload = function () {
         ctx.clearRect(0, 0, 227, 227);
-        ctx.drawImage(img, 0, 0);
+        ctx.drawImage(img, 0, 0, 227, 227);
         callback(img);
     }
 }

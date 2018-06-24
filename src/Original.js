@@ -29,6 +29,7 @@ class Original extends Component {
 
     drawAndUpdate = (image) => {
         const ctx = this.cImg.getContext('2d');
+        console.log("drawing image..", image);
         drawImage(ctx, image, function(img) {
             predict(img, this.props.net, null, function(top, activation) {
                 let rows = createRows(top, this.drawCAM);

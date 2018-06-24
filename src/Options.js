@@ -66,6 +66,11 @@ class Options extends Component {
             <MenuItem value="desk.jpg" primaryText="Desk"/>
             <MenuItem value="beach.jpg" primaryText="Beach"/>
           </SelectField>
+          <div id="file-container">
+            OR <h4>Upload an Image </h4>
+            <input onChange={this.props.imageChanged} type="file" id="files" name="files[]" multiple />
+          </div>
+          <br/>
         </div>
         <div id="brush-container">
           <h4>Brush Size</h4>

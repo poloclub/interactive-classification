@@ -51,9 +51,21 @@ class App extends Component {
   }
 
   imageChanged = (e, i, val) => {
-    this.setState({
-      image: val
-    });
+    if (!val) {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+          this.setState({image: event.target.result});
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      // console.log(e.target.files[0].result);
+      // this.setState({
+      //   image: e.target.files[0].name
+      // });
+    } else {
+      this.setState({
+        image: val
+      });
+    }
   }
 
   blurChanged = (e, val) => {
@@ -131,16 +143,15 @@ class App extends Component {
           <div id="mui-container">
             <div className="banner-cover" id="banner">
               <div style={{display: "inline"}}>
-                <ReactPlayer url='cvpr-video.mp4' width="204px" height="115px" style={{float: 'right', marginRight: '32%'}} playing/>
+                <span class="subtitle-right">powered by <img src={window.location.origin + '/tfjs.png'} style={{width: "20%", height: "20%"}} alt={"tfjs"}/></span>
                 <p className="banner-intro"> 
-                  <span class="title-shine">Interactive Classification: </span>
-                  modify an image in real time to experiment with deep learning image classifiers and explore their robustness and sensitivity. Compare how different deep learning model behave using by looking at its discriminative semantic regions.
+                  <span class="title-shine">Interactive Classification for Deep Learning Interpretation</span><br/><span class="subtitle">CVPR 2018, Salt Lake City. </span><br/><br/>
                 </p>
               </div>
             </div>
             
             <div id="main">
-              <Options imageChanged={this.imageChanged} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
+              <Options imageChanged={this.imageChanged} handleFiles={this.handleFiles} imageUploaded={this.imageUploaded} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} />
               <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
                         reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
