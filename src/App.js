@@ -40,7 +40,7 @@ class App extends Component {
       net: ''
     };
 
-    // Set your ConvNet model here: 
+    // Set your default ConvNet model here: 
     // model.netEnum.MOBILE or model.netEnum.SQUEEZE
     var netName = model.netEnum.SQUEEZE;
     this.net = model.getModel(netName);
@@ -68,6 +68,10 @@ class App extends Component {
         image: val
       });
     }
+  }
+
+  setCroppedImage = e => {
+    this.setState({image: e});
   }
 
   blurChanged = (e, val) => {
@@ -154,7 +158,7 @@ class App extends Component {
               </div>
             </div>
             <div id="main">
-              <Options imageChanged={this.imageChanged} handleFiles={this.handleFiles} imageUploaded={this.imageUploaded} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
+              <Options imageChanged={this.imageChanged} setCroppedImage={this.setCroppedImage} handleFiles={this.handleFiles} imageUploaded={this.imageUploaded} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
                       blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} netName={this.state.netName} />
               <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize}  
                         reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} netName={this.state.netName} />
