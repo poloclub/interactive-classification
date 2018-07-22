@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText, CardActions, FlatButton, TextField} from 'material-ui';
+import {RaisedButton, Slider, SelectField, MenuItem, Card, CardHeader, CardText, CardActions, FlatButton} from 'material-ui';
 import NavigationArrowForward from 'material-ui/svg-icons/navigation/arrow-forward';
 import NavigationArrowBack from 'material-ui/svg-icons/navigation/arrow-back';
 import {indigo500} from 'material-ui/styles/colors';
+import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import './App.css';
 
 import { unmountComponentAtNode } from 'react-dom';
@@ -15,7 +17,7 @@ class Options extends Component {
     super(props);
     
     this.state = {
-      mLabel: props.net.constructor.name,
+      mLabel: props.netName,
       tSlide: 0,
       slides: [
         <span><b>Interactive Classification</b> allows you to modify images to explore how computers see.</span>,
@@ -51,7 +53,7 @@ class Options extends Component {
 
   componentWillReceiveProps(nProps) {
       if (nProps.reset) {
-        this.setState({mLabel: nProps.net.constructor.name});
+        this.setState({mLabel: nProps.netName});
       }
   }
 
@@ -61,7 +63,7 @@ class Options extends Component {
       tutorial = <div id="tutorial-container" ref="tutorialCard">
                   <Card>
                     <CardHeader title="Tutorial" titleColor={indigo500} titleStyle={{fontWeight: 800}} style={{paddingBottom: 0, position: "absolute"}} />
-                    <CardActions class="float-right">
+                    <CardActions className="float-right">
                       <Button size="small" color="primary" onClick={this.handleDelete}>Dismiss</Button>
                     </CardActions><br/><br/>
                     <CardText style={{paddingTop: 10}}>
@@ -114,11 +116,12 @@ class Options extends Component {
             </div>
           </div>
         </div>
-        <div id="select-container">
+        <div id="model-container">
           <RaisedButton className="modelButton" label="SqueezeNet" secondary={true} onClick={this.props.reloadSQ}/> 
           <br />
           <RaisedButton className="modelButton" label="MobileNet" secondary={true} onClick={this.props.reloadMB}/>
-          <h4 style={{marginTop: "10px", marginBottom: "5px"}}>Current model: </h4> <TextField id="modelLabel" style={{display: "inline"}} value={this.state.mLabel} />
+          <h4 style={{marginTop: "10px", marginBottom: "5px"}}>Current model: </h4><br/>
+          <TextField style={{width: "98%"}} value={this.state.mLabel} />
         </div>
         <div id="reset-button">
           <RaisedButton label="Reset" secondary={true} onClick={this.props.reset}/>

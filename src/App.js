@@ -36,7 +36,8 @@ class App extends Component {
       blurSize: 2,
       blur: 0,
       reset: 0,
-      loading: false
+      loading: false,
+      net: ''
     };
 
     // Set your ConvNet model here: 
@@ -45,8 +46,9 @@ class App extends Component {
     this.net = model.getModel(netName);
     this.net.load().then(() => {
       this.setState({
-        netStatus: 'Loaded'
-      }) 
+        netStatus: 'Loaded',
+        netName: 'SqueezeNet'
+      });
     });
   }
 
@@ -106,7 +108,8 @@ class App extends Component {
     this.net.load().then(() => {
       console.log("squeeze loaded!!")
       this.setState({
-        netStatus: 'Loaded'
+        netStatus: 'Loaded',
+        netName: 'SqueezeNet'
       });
       this.reset();
     });
@@ -119,7 +122,8 @@ class App extends Component {
     this.net = new MobileNet(this.math);
     this.net.load().then(() => {
       this.setState({
-        netStatus: 'Loaded'
+        netStatus: 'Loaded',
+        netName: 'MobileNet'
       });
       this.reset();
     });
@@ -143,18 +147,18 @@ class App extends Component {
           <div id="mui-container">
             <div className="banner-cover" id="banner">
               <div style={{display: "inline"}}>
-                <span class="subtitle-right">powered by <img src={window.location.origin + '/tfjs.png'} style={{width: "20%", height: "20%"}} alt={"tfjs"}/></span>
+                <span className="subtitle-right">powered by <img src={window.location.origin + '/tfjs.png'} style={{width: "20%", height: "20%"}} alt={"Tensorflow.js"}/></span>
                 <p className="banner-intro"> 
-                  <span class="title-shine">Interactive Classification for Deep Learning Interpretation</span><br/><span class="subtitle">CVPR 2018, Salt Lake City. </span><br/><br/>
+                  <span className="title-shine">Interactive Classification for Deep Learning Interpretation</span><br/><span className="subtitle">CVPR 2018, Salt Lake City. </span><br/><br/>
                 </p>
               </div>
             </div>
             <div id="main">
               <Options imageChanged={this.imageChanged} handleFiles={this.handleFiles} imageUploaded={this.imageUploaded} brushChanged={this.brushChanged} blurChanged={this.blurChanged} blur={this.blur} reset={this.reset} 
-                      blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} net={this.net} />
-              <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize} 
-                        reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} />
-              <Original image={this.state.image} net={this.net} reset={this.state.reset} updateKeys={this.updateTop} />
+                      blurSize={this.state.blurSize} brushSize={this.state.brushSize} image={this.state.image} reloadSQ={this.reloadSqueeze} reloadMB={this.reloadMobile} netName={this.state.netName} />
+              <Modified image={this.state.image} net={this.net} brushSize={this.state.brushSize} blurSize={this.state.blurSize}  
+                        reset={this.state.reset} blur={this.state.blur} ref={(c) => this.mod = c} topK={this.state.topK} netName={this.state.netName} />
+              <Original image={this.state.image} net={this.net} reset={this.state.reset} updateKeys={this.updateTop} netName={this.state.netName} />
             </div>
           </div>
         </MuiThemeProvider>

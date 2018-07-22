@@ -20,7 +20,7 @@ class Original extends Component {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
-            drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
+            drawCAM(this.cImg, this.props.net, this.props.netName, this.state.activation, this.cCam, index);
         } else {
             const ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
@@ -31,7 +31,7 @@ class Original extends Component {
         const ctx = this.cImg.getContext('2d');
         console.log("drawing image..", image);
         drawImage(ctx, image, function(img) {
-            predict(img, this.props.net, null, function(top, activation) {
+            predict(img, this.props.net, this.props.netName, null, function(top, activation) {
                 let rows = createRows(top, this.drawCAM);
                 this.setState({
                     results: rows,
@@ -75,6 +75,9 @@ class Original extends Component {
                         {this.state.results}
                     </TableBody>
                 </Table>
+                <img src={window.location.origin + '/gt_logo.png'} className="float-right" style={{width: "154px", height: "80px", bottom:"25px", right:"15px", position:"absolute"}}/>
+                <img src={window.location.origin + '/cvpr_logo.jpg'} className="float-right" style={{width: "120px", height: "71px", bottom:"25px", right:"169px", position:"absolute"}}/>
+                
           </div>
       );
     }

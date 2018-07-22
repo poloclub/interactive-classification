@@ -25,7 +25,6 @@ export function getModel(netName){
 
 export function CAM(softmaxWeights, lastActivation, classX, featmapSize, depth) {
     var softMaxW = dl.transpose(softmaxWeights).gather(dl.tensor1d([classX]));
-    console.log("in CAM", lastActivation);
     var lastAct = dl.transpose(lastActivation.reshape([featmapSize, depth]));
     var cam = dl.matMul(softMaxW, lastAct);
     cam = cam.reshape([Math.sqrt(featmapSize), Math.sqrt(featmapSize)]);

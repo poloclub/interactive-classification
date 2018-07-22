@@ -20,9 +20,21 @@ export function drawImage(ctx, src, callback) {
     }
 }
 
-export function drawCAM(img, net, activation, canvas, id) {
+export function drawCAM(img, net, netName, activation, canvas, id) {
     const weights = net.getLastWeights();
-    let cam = (net.constructor.name=="SqueezeNet") ? model.CAM(weights, activation, id, 169, 512) : model.CAM(weights, activation, id, 64, 1024);
+    // console.log("net.constructor name = ", netName);    // Debug: network name
+    
+    var featmapSize = 169;
+    var depth = 512;
+    if (netName == "SqueezeNet") {
+        featmapSize = 169;
+        depth = 512;
+    } else {
+        // MobileNet
+        featmapSize = 64;
+        depth = 1024;
+    }
+    let cam = model.CAM(weights, activation, id, featmapSize, depth);
 
     cam = cam.dataSync();
     let buff = new Uint8ClampedArray(227*227*4);
@@ -43,12 +55,12 @@ export function drawCAM(img, net, activation, canvas, id) {
     ctx.putImageData(iData, 0, 0);
 }
 
-export function predict(img, net, classes, callback) {
+export function predict(img, net, netName, classes, callback) {
     const pixels = dl.fromPixels(img);
     const resized = dl.image.resizeBilinear(pixels, [227, 227]);
 
     const t0 = performance.now();
-    const resAll = (net.constructor.name=="SqueezeNet") ? net.predictWithActivation(resized, 'fire9') : net.predictWithActivation(resized);
+    const resAll = (netName=="SqueezeNet") ? net.predictWithActivation(resized, 'fire9') : net.predictWithActivation(resized);
     console.log('Classification took ' + parseFloat(Math.round(performance.now() - t0)) + ' milliseconds');
 
     const res = resAll.logits;

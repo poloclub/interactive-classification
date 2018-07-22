@@ -81,7 +81,7 @@ class Modified extends Component {
             if (!this.state.order) {
                 classes = Array.from(this.props.topK.keys());
             }
-            predict(img, this.props.net, classes, function(top, activation) {
+            predict(img, this.props.net, this.props.netName, classes, function(top, activation) {
                 const rows = createCompRows(top, this.props.topK);
                 this.setState({
                     results: rows,
@@ -108,7 +108,7 @@ class Modified extends Component {
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
-            drawCAM(this.cImg, this.props.net, this.state.activation, this.cCam, index);
+            drawCAM(this.cImg, this.props.net, this.props.netName, this.state.activation, this.cCam, index);
         } else {
             const ctx = this.cCam.getContext('2d');
             ctx.clearRect(0, 0, 227, 227);
@@ -134,7 +134,7 @@ class Modified extends Component {
         if (!val) {
             classes = Array.from(this.props.topK.keys());
         }
-        predict(this.cImg, this.props.net, classes, function(top, activation) {
+        predict(this.cImg, this.props.net, this.props.netName, classes, function(top, activation) {
             let rows = createCompRows(top, this.props.topK);
             this.setState({
                 results: rows,
@@ -146,7 +146,7 @@ class Modified extends Component {
     componentDidMount() {
         const ctx = this.cImg.getContext('2d');
         drawImage(ctx, this.props.image, function(img) {
-            predict(img, this.props.net, null, function(top, activation) {
+            predict(img, this.props.net, this.props.netName, null, function(top, activation) {
                 let rows = createCompRows(top, null);
                 this.setState({
                     results: rows,
@@ -166,7 +166,7 @@ class Modified extends Component {
             ctx.clearRect(0, 0, 227, 227);
             ctx = this.cImg.getContext('2d');
             drawImage(ctx, nProps.image, function(img) {
-                predict(img, nProps.net, null, function(top, activation) {
+                predict(img, nProps.net, nProps.netName, null, function(top, activation) {
                     let rows = createCompRows(top, null);
                     this.setState({
                         results: rows,
@@ -177,7 +177,7 @@ class Modified extends Component {
             }.bind(this));
         } else if (nProps.blur) {
             canvasRGB(this.cImg, 0, 0, 227, 227, this.props.blurSize);
-            predict(this.cImg, nProps.net, classes, function(top, activation) {
+            predict(this.cImg, nProps.net, nProps.netName, classes, function(top, activation) {
                 let rows = createCompRows(top, this.props.topK);
                 this.setState({
                     results: rows,
@@ -216,6 +216,7 @@ class Modified extends Component {
                         {this.state.results}
                     </TableBody>
                 </Table>
+                <p>List of all 1000 ImageNet classes supported <a style={{color:"#3366BB"}} href="https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a">here</a>.</p>
             </div>
         );
     }
