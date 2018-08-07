@@ -2,7 +2,6 @@
   "name": "deepvis",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://jlin.xyz/cvpr-demo",
   "dependencies": {
     "@material-ui/core": "^1.2.3",
     "d3-color": "^1.0.3",

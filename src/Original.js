@@ -16,7 +16,6 @@ class Original extends Component {
 
     drawCAM = (e) => {
         if (e.length !== 0) {
-            // TODO: move IMAGENET_CLASSES SOMEWHERE
             let ar = Object.assign([], IMAGENET_CLASSES);
             let row = this.state.results[e[0]];
             let index = ar.indexOf(row.key);
@@ -29,7 +28,6 @@ class Original extends Component {
 
     drawAndUpdate = (image) => {
         const ctx = this.cImg.getContext('2d');
-        // console.log("drawing image..", image);
         drawImage(ctx, image, function(img) {
             predict(img, this.props.net, this.props.netName, null, function(top, activation) {
                 let rows = createRows(top, this.drawCAM);

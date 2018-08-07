@@ -54,7 +54,7 @@ class Options extends Component {
 
   onSelectFile = e => {
     if (e.target.files && e.target.files.length > 0) {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.addEventListener(
         'load',
         () => {
@@ -198,7 +198,7 @@ class Options extends Component {
                 onImageLoaded={this.onImageLoaded}
                 onComplete={this.onCropComplete}
                 onChange={this.onCropChange}
-                style={{marginTop: "7px", marginBottom: "3px"}}
+                style={{marginTop: "6px", marginBottom: "4px"}}
               />
               <RaisedButton 
                 label="Crop" 
