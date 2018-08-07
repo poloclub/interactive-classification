@@ -3,7 +3,7 @@ import {predict, inpaint, drawImage, createCompRows, drawCAM} from './util.js';
 import {Table, TableHeader, TableHeaderColumn, TableBody, TableRow, Paper} from 'material-ui';
 import {IMAGENET_CLASSES} from './squeezenet/imagenet_classes.js';
 import {canvasRGB} from 'stackblur-canvas';
-import {BeatLoader} from 'react-spinners';
+import {ClipLoader} from 'react-spinners';
 import './App.css';
 
 class Modified extends Component {
@@ -88,11 +88,9 @@ class Modified extends Component {
                     activation: activation
                 });
             }.bind(this));
-
-            this.setState({
-                loading: false
-            }); 
-         });
+         }).then(() => this.setState({
+            loading: false
+         }));
     }
 
     mouseLeave = () => {
@@ -191,8 +189,7 @@ class Modified extends Component {
     render() {
         return (
             <div className="box" id="modified">
-              <BeatLoader color={'rgb(40, 53, 147)'} loading={this.state.loading} margin={'0 auto'}/>
-              <Paper style={{marginBottom: 30, height: 227, width: 227}} zDepth={3}>
+              <Paper style={{marginBottom: 30, height: 227, width: 227, display: "inline-block"}} zDepth={3}>
                 <canvas id="modified-canvas" height="227px" width="227px" 
                         ref={cImg => this.cImg = cImg}> 
                 </canvas>
@@ -203,20 +200,23 @@ class Modified extends Component {
                         onMouseLeave={this.mouseLeave}>
                 </canvas>
               </Paper>
-                <h3>Modified Image</h3>
-                <Table className="table" onRowSelection={this.drawCAM}>
-                    <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
-                        <TableRow className="header-row" onCellClick={(e, f, g) => this.orderChanged(e, f, g)}>
-                            <TableHeaderColumn>Class</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right', cursor: 'pointer'}}>Confidence %</TableHeaderColumn>
-                            <TableHeaderColumn style={{textAlign: 'right'}}>Absolute % Change</TableHeaderColumn>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody displayRowCheckbox={false} showRowHover={true} deselectOnClickaway={false}>
-                        {this.state.results}
-                    </TableBody>
-                </Table>
-                <p>List of all 1000 ImageNet classes supported <a style={{color:"#3366BB"}} href="https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a">here</a>.</p>
+              <div id="inpaint-loader">
+                  <ClipLoader id="inpaint-loader" color="rgb(63, 81, 181)" loading={this.state.loading} />
+              </div>
+              <h3>Modified Image</h3>
+              <Table className="table" onRowSelection={this.drawCAM}>
+                  <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+                      <TableRow className="header-row" onCellClick={(e, f, g) => this.orderChanged(e, f, g)}>
+                          <TableHeaderColumn>Class</TableHeaderColumn>
+                          <TableHeaderColumn style={{textAlign: 'right', cursor: 'pointer'}}>Confidence %</TableHeaderColumn>
+                          <TableHeaderColumn style={{textAlign: 'right'}}>Absolute % Change</TableHeaderColumn>
+                      </TableRow>
+                  </TableHeader>
+                  <TableBody displayRowCheckbox={false} showRowHover={true} deselectOnClickaway={false}>
+                      {this.state.results}
+                  </TableBody>
+              </Table>
+              <p>List of all 1000 ImageNet classes supported <a style={{color:"#3366BB"}} href="https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a">here</a>.</p>
             </div>
         );
     }

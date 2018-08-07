@@ -6,7 +6,7 @@ import {MobileNet} from './mobilenet/mobilenet.js';
 import {MuiThemeProvider, Toolbar, ToolbarTitle, Card} from 'material-ui';
 import {indigo500, red800} from 'material-ui/styles/colors';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-import {BeatLoader} from 'react-spinners';
+import {ClipLoader} from 'react-spinners';
 import ReactPlayer from 'react-player';
 
 import * as model from './model.js';
@@ -59,10 +59,6 @@ class App extends Component {
           this.setState({image: event.target.result});
       };
       reader.readAsDataURL(e.target.files[0]);
-      // console.log(e.target.files[0].result);
-      // this.setState({
-      //   image: e.target.files[0].name
-      // });
     } else {
       this.setState({
         image: val
@@ -103,7 +99,6 @@ class App extends Component {
     });
   }
 
-  // TODO: rewrite model transition into one function and move to model.js
   reloadSqueeze = (e, val) => {
     this.setState({
       loading: true
@@ -116,7 +111,9 @@ class App extends Component {
         netName: 'SqueezeNet'
       });
       this.reset();
-    });
+    }).then(() => this.setState({
+      loading: false
+    }));
   }
 
   reloadMobile = (e, val) => {
@@ -130,7 +127,9 @@ class App extends Component {
         netName: 'MobileNet'
       });
       this.reset();
-    });
+    }).then(() => this.setState({
+      loading: false
+    }));
   }
 
   blur = (e) => {
@@ -147,11 +146,17 @@ class App extends Component {
     if (this.state.netStatus === "Loaded") {
       return (
         <MuiThemeProvider muiTheme={this.muiTheme}>
-          <BeatLoader color={'rgb(40, 53, 147)'} loading={this.state.loading} margin={'0 auto'}/>
           <div id="mui-container">
             <div className="banner-cover" id="banner">
-              <div style={{display: "inline"}}>
-                <span className="subtitle-right">powered by <img src={window.location.origin + '/tfjs.png'} style={{width: "20%", height: "20%"}} alt={"Tensorflow.js"}/></span>
+              <div style={{display: "inline"}}>                
+                <span className="subtitle-right">
+                  <div id="model-loader">
+                    <ClipLoader id="model-loader" color={'white'} loading={this.state.loading}/>
+                  </div>
+                  <div style={{marginTop: "5px", marginBottom: "5px", display:"inline"}}>
+                    powered by <img src={window.location.origin + '/tfjs.png'} style={{width: "171px", height: "26px"}} alt={"Tensorflow.js"}/>
+                  </div>
+                </span>
                 <p className="banner-intro"> 
                   <span className="title-shine">Interactive Classification for Deep Learning Interpretation</span><br/><span className="subtitle">CVPR 2018, Salt Lake City. </span><br/><br/>
                 </p>

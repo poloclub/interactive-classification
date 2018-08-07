@@ -75,7 +75,6 @@ a {
 
 #model-container {
   padding-left: 24px;
-  /*padding-right: 24px;*/
   margin-right: 24px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -167,7 +166,6 @@ h3 {
 }
 
 #tutorial-container {
-  /*position: absolute;*/
   bottom: 40px;
   padding-left: 24px;
   padding-right: 200px;
@@ -190,7 +188,6 @@ h3 {
   background-color: rgba(63, 81, 181,1.0);
   background-size: cover;
   padding-top: 10px;
-  /*padding-bottom: 0px;*/
   box-shadow: 3px 3px 5px grey;
 }
 
@@ -203,7 +200,6 @@ h3 {
 
 .banner-intro {
   margin-left: 20px;
-  /*max-width: 100%;*/
   color: white;
   font-size: 20px;
   font-weight: 100;
@@ -213,27 +209,32 @@ h3 {
 }
 
 .subtitle {
-  /*margin-left: 20px;*/
-  /*max-width: 100%;*/
   color: white;
   font-size: 20px;
   font-weight: lighter;
-  /*letter-spacing: -0.02em;*/
   margin-top: 20px;
 }
 
 .subtitle-right {
+  display: inline-flex;
+  margin-top: 20px;
   margin-right: 10px;
-  /*max-width: 100%;*/
   position: absolute;
   right: 0px;
   text-align: right;
   color: white;
-  font-size: 15px;
-  margin-top: 20px;
 }
 
 .float-right {
   float: right;
 }
 
+#inpaint-loader {
+  display: inline-block;
+  margin-right: 20px;
+}
+
+#model-loader {
+  display: inline-block;
+  margin-right: 12px;
+}
