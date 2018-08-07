@@ -231,7 +231,7 @@ h3 {
 
 #inpaint-loader {
   display: inline-block;
-  margin-right: 20px;
+  margin-left: 20px;
 }
 
 #model-loader {
