@@ -57,6 +57,16 @@ The following steps are needed to set up PatchMatch inpainting, which currently 
 [Angel Cabrera][angel], [Fred Hohman][fred], [Jason Lin][jason], [Duen Horng (Polo) Chau][polo]  
 *Demo, Conference on Computer Vision and Pattern Recognition (CVPR). June 18, 2018. Salt Lake City, USA.*
 
+```
+@article{cabrera2018interactive,
+  title={Interactive Classification for Deep Learning Interpretation},
+  author={Cabrera, Angel and Hohman, Fred and Lin, Jason and Chau, Duen Horng},
+  journal={Demo, Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  year={2018},
+  organization={IEEE}
+}
+```
+
 ## Researchers
 
 |  Name                 | Affiliation                     |
