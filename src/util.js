@@ -85,7 +85,7 @@ export async function inpaint(iCtx, dCtx) {
     }
 
     // Try to call resynthesizer, if not use Telea
-    return fetch('http://127.0.0.1:5000/inpaint', {
+    /*return fetch('http://127.0.0.1:5000/inpaint', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -104,23 +104,24 @@ export async function inpaint(iCtx, dCtx) {
     })
     .catch(err => {
         console.log("ERROR:", err, "using Telea");
-        for(let channel = 0; channel < 3; channel++){
-            const img_u8 = new Uint8Array(227*227)
-            for(let n = 0; n < img.data.length; n+=4){
-                img_u8[n / 4] = img.data[n + channel]
-            }
-            InpaintTelea(227, 227, img_u8, mask_u8)
-            for(let i = 0; i < img_u8.length; i++){
-                img.data[4 * i + channel] = img_u8[i]
-            }	
+        */
+    for(let channel = 0; channel < 3; channel++){
+        const img_u8 = new Uint8Array(227*227)
+        for(let n = 0; n < img.data.length; n+=4){
+            img_u8[n / 4] = img.data[n + channel]
         }
-        for(let i = 0; i < mask_u8.length; i++){
-            img.data[4 * i + 3] = 255;
-        }
-        dCtx.clearRect(0, 0, 227, 227);
-        iCtx.putImageData(img, 0, 0);
-        return img;
-    });
+        InpaintTelea(227, 227, img_u8, mask_u8)
+        for(let i = 0; i < img_u8.length; i++){
+            img.data[4 * i + channel] = img_u8[i]
+        }	
+    }
+    for(let i = 0; i < mask_u8.length; i++){
+        img.data[4 * i + 3] = 255;
+    }
+    dCtx.clearRect(0, 0, 227, 227);
+    iCtx.putImageData(img, 0, 0);
+    return img;
+   // });
 }
 
 
